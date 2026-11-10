@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Manual Jira CDGE</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#f6f8fb; --surface:#ffffff; --fg:#14213a; --muted:#5a6882; --line:#dbe2ee;
+  --accent:#0b6b5d; --accent-soft:#dff3ee; --code-bg:#eef2f8; --code-fg:#12355f;
+  --warn:#8a5a00; --warn-soft:#fdf1d6; --bad:#a3262a; --bad-soft:#fbe4e4; --ok:#1c6b3a; --ok-soft:#dff2e5; --info:#1d4f91; --info-soft:#e3edfb;
+  --font-body:'Public Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,'Cascadia Mono',Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1626; --surface:#15203a; --fg:#e6ecf7; --muted:#9aa9c4; --line:#2a3858;
+  --accent:#4fd1b8; --accent-soft:#12372f; --code-bg:#1b2947; --code-fg:#b9d4ff;
+  --warn:#f0c26a; --warn-soft:#3a2d10; --bad:#ff9a9d; --bad-soft:#3d1a1d; --ok:#7fdca0; --ok-soft:#14331f; --info:#8fbaff; --info-soft:#182c4d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1626; --surface:#15203a; --fg:#e6ecf7; --muted:#9aa9c4; --line:#2a3858;
+  --accent:#4fd1b8; --accent-soft:#12372f; --code-bg:#1b2947; --code-fg:#b9d4ff;
+  --warn:#f0c26a; --warn-soft:#3a2d10; --bad:#ff9a9d; --bad-soft:#3d1a1d; --ok:#7fdca0; --ok-soft:#14331f; --info:#8fbaff; --info-soft:#182c4d; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:15px;line-height:1.6;margin:0;padding-block:24px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:230px minmax(0,1fr);gap:40px}
+nav.toc{position:sticky;top:16px;align-self:start;font-size:13.5px;max-height:calc(100vh - 32px);overflow:auto}
+nav.toc .brand{font-weight:700;font-size:15px;margin-bottom:4px}
+nav.toc .sub{color:var(--muted);font-size:12px;margin-bottom:14px}
+nav.toc a{display:block;padding:5px 10px;border-left:2px solid var(--line);color:var(--muted);text-decoration:none}
+nav.toc a:hover,nav.toc a:focus-visible{color:var(--fg);border-left-color:var(--accent);outline:none}
+nav.toc .grp{margin:14px 0 4px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+main{min-width:0}
+header.top{padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:8px}
+h1{font-size:clamp(28px,4.4vw,40px);line-height:1.12;margin:0 0 10px;letter-spacing:-.02em;text-wrap:balance}
+.lede{color:var(--muted);max-width:68ch;margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{font-size:12px;padding:3px 10px;border-radius:99px;background:var(--code-bg);color:var(--code-fg);font-family:var(--font-mono)}
+section{padding-top:38px}
+h2{font-size:24px;line-height:1.2;margin:0 0 6px;letter-spacing:-.01em;text-wrap:balance}
+h2 + .intro{color:var(--muted);max-width:70ch;margin:0 0 18px}
+h3{font-size:17px;margin:26px 0 8px;text-wrap:balance}
+h4{font-size:13px;margin:16px 0 6px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+p{max-width:75ch;margin:0 0 12px}
+code{font-family:var(--font-mono);font-size:.88em;background:var(--code-bg);color:var(--code-fg);padding:1px 6px;border-radius:4px;overflow-wrap:anywhere}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface);margin:10px 0 18px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--bg);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.pat{display:flex;gap:8px;align-items:flex-start;justify-content:space-between}
+.cp{flex:none;font:600 11px var(--font-body);border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:6px;padding:2px 8px;cursor:pointer}
+.cp:hover,.cp:focus-visible{color:var(--accent);border-color:var(--accent);outline:none}
+ol.steps{counter-reset:s;list-style:none;padding:0;margin:8px 0 16px;display:grid;gap:8px}
+ol.steps li{counter-increment:s;position:relative;padding:10px 14px 10px 48px;background:var(--surface);border:1px solid var(--line);border-radius:8px;max-width:78ch}
+ol.steps li::before{content:counter(s);position:absolute;left:12px;top:10px;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--surface);font-weight:700;font-size:12px;display:grid;place-items:center}
+ul.plain{margin:6px 0 14px;padding-left:20px;max-width:75ch}
+ul.plain li{margin:3px 0}
+.note{border-radius:8px;padding:11px 14px;margin:14px 0;max-width:78ch;font-size:14px}
+.note.info{background:var(--info-soft);color:var(--info)}
+.note.warn{background:var(--warn-soft);color:var(--warn)}
+.note.ok{background:var(--ok-soft);color:var(--ok)}
+.note b{font-weight:700}
+.tree{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin:12px 0 8px}
+.tree h5{margin:0 0 10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.node{margin:0 0 0 0;padding:7px 11px;border-radius:7px;border:1px solid var(--line);font-size:13.5px;background:var(--bg)}
+.node small{display:block;color:var(--muted);font-size:12px}
+.lv1{border-color:var(--accent);background:var(--accent-soft)}
+.kids{margin:6px 0 6px 18px;padding-left:14px;border-left:2px solid var(--line);display:grid;gap:6px}
+.st{display:inline-block;font-size:12px;font-weight:600;padding:1px 9px;border-radius:99px;margin:2px 3px 2px 0;white-space:nowrap}
+.st.todo{background:var(--code-bg);color:var(--muted)}
+.st.prog{background:var(--info-soft);color:var(--info)}
+.st.done{background:var(--ok-soft);color:var(--ok)}
+.st.fail{background:var(--bad-soft);color:var(--bad)}
+.st.wait{background:var(--warn-soft);color:var(--warn)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin:10px 0 16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.card h4{margin:0 0 6px}
+.card p{font-size:13.5px;margin:0}
+.num{font-variant-numeric:tabular-nums}
+details{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin:8px 0;max-width:78ch}
+summary{cursor:pointer;font-weight:600}
+summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+footer{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+@media (max-width:900px){
+  .wrap{display:block}
+  nav.toc{position:static;max-height:none;margin-bottom:18px;display:flex;flex-wrap:wrap;gap:6px}
+  nav.toc .brand,nav.toc .sub,nav.toc .grp{width:100%;margin:0}
+  nav.toc a{border:1px solid var(--line);border-radius:99px;padding:3px 10px;background:var(--surface)}
+}
+@media (prefers-reduced-motion:no-preference){a,button{transition:color .15s,border-color .15s}}
+</style>
+</head><body>
+<div class="wrap">
+<nav class="toc" aria-label="Índice">
+  <div class="brand">Manual Jira CDGE</div>
+  <div class="sub">Cuenta Digital – Madrid Digital</div>
+  <div class="grp">Base</div>
+  <a href="#jerarquia">Jerarquía</a>
+  <a href="#nomenclatura">Nomenclatura</a>
+  <a href="#epica">Épica (Encargo)</a>
+  <a href="#actividad">Actividades</a>
+  <div class="grp">Por subtipo</div>
+  <a href="#gestion">Gestión</a>
+  <a href="#analitica">Analítica</a>
+  <a href="#research">Research</a>
+  <a href="#diseno">Diseño</a>
+  <a href="#pruebas">Pruebas</a>
+  <div class="grp">Seguimiento</div>
+  <a href="#informes">Informes</a>
+  <a href="#otros">Otros tipos</a>
+  <a href="#revisar">Puntos a revisar</a>
+</nav>
+
+<main>
+<header class="top">
+  <h1>Manual de uso de Jira · proyecto CDGE</h1>
+  <p class="lede">Cómo se organiza el trabajo del proyecto Cuenta Digital – Madrid Digital: qué es una épica, cómo cuelgan las actividades, cómo se nombra cada tarea y cómo se planifican, ejecutan y reportan las pruebas.</p>
+  <div class="meta">
+    <span class="chip">Leído de Jira el 9-nov-2026</span>
+    <span class="chip num">744 incidencias</span>
+    <span class="chip num">16 tipos de incidencia</span>
+    <span class="chip">Xray para pruebas</span>
+  </div>
+  <div class="note info" style="margin-top:16px"><b>Cómo leer este manual.</b> Los tipos, estados, campos y ejemplos salen de la configuración real del proyecto. Donde la práctica actual no es uniforme, la columna «Estándar» marca la convención a seguir y «Hoy en Jira» muestra lo que existe. Lo que es propuesta y no está aún en uso se indica como tal.</div>
+</header>
+
+<section id="jerarquia">
+  <h2>Jerarquía del trabajo</h2>
+  <p class="intro">Hay dos ramas. La de gestión del encargo (épica y actividades) y la de pruebas (plan, ejecución y casos), que cuelga de la misma épica.</p>
+  <div class="tree">
+    <div>
+      <h5>Rama de gestión</h5>
+      <div class="node lv1">Épica = Encargo<small>Ej. CD_ENC046 · Espacios temáticos</small></div>
+      <div class="kids">
+        <div class="node">Actividades (AC_)<small>Una por subtipo y entregable: Gestión, Analítica, Research, Diseño, Pruebas…</small></div>
+        <div class="node">Tarea<small>Trabajo suelto, p. ej. «MaDi – Documentación – ribbon»</small></div>
+        <div class="node">Historia / Evolutivo<small>Cuando hay requisito de usuario o cambio funcional</small></div>
+      </div>
+    </div>
+    <div>
+      <h5>Rama de pruebas (Xray)</h5>
+      <div class="node lv1">Épica = Encargo<small>Mismo padre</small></div>
+      <div class="kids">
+        <div class="node">Test Plan (TP_)<small>Qué se prueba y en qué dispositivo y tipo</small>
+          <div class="kids">
+            <div class="node">Test Execution (TE_)<small>Una ronda de ejecución concreta</small></div>
+          </div>
+        </div>
+        <div class="node">Test Set (TS-)<small>Agrupación reutilizable de casos</small></div>
+        <div class="node">Test Case (TC-)<small>El caso con sus pasos · campo ENV</small></div>
+        <div class="node">Precondiciones<small>Estado previo que necesitan varios casos</small></div>
+        <div class="node">Error (BUG)<small>Fallo encontrado, enlazado al caso</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="nomenclatura">
+  <h2>Nomenclatura de tareas</h2>
+  <p class="intro">Todo título empieza por un prefijo que dice qué es, seguido de la referencia de la épica y de lo que lo distingue. Copia el patrón con el botón.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Tipo Jira</th><th>Estándar</th><th>Hoy en Jira</th></tr></thead>
+    <tbody>
+    <tr><td><b>Épica</b><br>(Encargo)</td>
+      <td><div class="pat"><code>CD_ENC&lt;nº&gt; - Descripción</code><button class="cp" data-t="CD_ENC<nº> - Descripción">Copiar</button></div></td>
+      <td>«CD_ENC046_ Diseño y seguimiento desarrollo de los Espacios temáticos (2026)»<br>«CD-ENC034 — Evolución funcional de Cuenta Digital…»<br>Bolsas mensuales: «NTT - Features - Noviembre 2026»</td></tr>
+    <tr><td><b>Actividades</b></td>
+      <td><div class="pat"><code>AC_ENC&lt;nº encargo&gt; - Descripción</code><button class="cp" data-t="AC_ENC<nº encargo> - Descripción">Copiar</button></div><br>El subtipo va en su campo, no en el título.</td>
+      <td>«AC_ENC046_ Empleo_Sesiones, diseño final, especificaciones técnicas de servicios, acompañamiento desarrollo»</td></tr>
+    <tr><td><b>Test Plan</b></td>
+      <td><div class="pat"><code>TP_&lt;épica&gt; - &lt;dispositivo&gt; - &lt;tipo&gt; - Descripción</code><button class="cp" data-t="TP_<épica> - <dispositivo> - <tipo> - Descripción">Copiar</button></div></td>
+      <td>«TP_CDGE-664_ DES- A11y_Espacio Judicial»<br>«TP_CDGE-664_ APP- Funcional_Espacio Judicial.»<br>«TP-CDGE-4-NTT- ACCESIBILIDAD»<br>«TP - Noviembre - a11y»</td></tr>
+    <tr><td><b>Test Execution</b></td>
+      <td><div class="pat"><code>TE_&lt;épica&gt; - &lt;dispositivo&gt; - &lt;tipo&gt; - Descripción</code><button class="cp" data-t="TE_<épica> - <dispositivo> - <tipo> - Descripción">Copiar</button></div></td>
+      <td>«TE-CDGE-664-FUN-DESK- E2E casos principales»<br>«TE-CDGE-664-IOS-APP - Diseño de Espacio Justicia»<br>«TE - a11y - Desktop - C20-26280 Carné Joven…»</td></tr>
+    <tr><td><b>Test Set</b></td>
+      <td><div class="pat"><code>TS_&lt;ámbito&gt; - Agrupación</code><button class="cp" data-t="TS_<ámbito> - Agrupación">Copiar</button></div></td>
+      <td>«TS-SOL-001 - Funcionales»<br>«TS-SOL-003 - Calidad de respuesta»<br>«a11y repositorio»</td></tr>
+    <tr><td><b>Test Case</b></td>
+      <td><div class="pat"><code>TC_&lt;ámbito&gt;-&lt;área&gt;-&lt;nº&gt; - Descripción</code><button class="cp" data-t="TC_<ámbito>-<área>-<nº> - Descripción">Copiar</button></div></td>
+      <td>«TC-SOL-CON-CON-009 - Cambio de contexto…»<br>«[TAX-COV-054] Clasificación Educación y formación…»<br>«DV-M-006 Adjuntar y descargar archivos desde el móvil»<br>«3.3.7 Entrada de texto redundante» (criterio WCAG)</td></tr>
+    <tr><td><b>Precondiciones</b></td>
+      <td><div class="pat"><code>PRE_&lt;ámbito&gt;-&lt;nº&gt; - Descripción</code><button class="cp" data-t="PRE_<ámbito>-<nº> - Descripción">Copiar</button></div><br><em>Propuesta: aún no hay ninguna creada.</em></td>
+      <td>Sin uso</td></tr>
+    <tr><td><b>Error</b></td>
+      <td><div class="pat"><code>BUG - &lt;ID caso o criterio&gt; - &lt;C20-nº historia&gt; Descripción</code><button class="cp" data-t="BUG - <ID caso o criterio> - <C20-nº historia> Descripción">Copiar</button></div></td>
+      <td>«BUG - 111 Imagen con alt no descriptivo - C20-26280 Carné Joven…»<br>«BUGS de C20-7204 Actualizar el filtro en "Mis Notificaciones"» (agrupador por historia)</td></tr>
+    <tr><td><b>Tarea</b></td>
+      <td><div class="pat"><code>&lt;Ámbito&gt; - &lt;Área&gt; - &lt;Componente&gt;</code><button class="cp" data-t="<Ámbito> - <Área> - <Componente>">Copiar</button></div></td>
+      <td>«MaDi - Documentación - Pagination_numbers»<br>«MaDi - Documentación - ribbon»</td></tr>
+    <tr><td><b>Subtask</b></td>
+      <td>Nombre del dispositivo</td>
+      <td>«Escritorio», «Mobile simulado»</td></tr>
+    </tbody></table></div>
+
+  <h3>Ejemplos de cómo debe verse cada título</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Tipo Jira</th><th>Ejemplos correctos</th><th>Evita</th></tr></thead>
+    <tbody>
+    <tr><td><b>Épica</b></td><td><code>CD_ENC046 - Diseño y seguimiento del desarrollo de los Espacios temáticos 2026</code><br><code>CD_ENC034 - Evolución funcional de Cuenta Digital y plantilla de servicio</code><br><code>NTT - Features - Noviembre 2026</code></td><td>«CD - ENC017 · …», «CD_ENC046_ …» (separadores distintos)</td></tr>
+    <tr><td><b>Actividades</b></td><td><code>AC_ENC046 - Empleo: sesiones, diseño final y especificaciones técnicas</code><br><code>AC_ENC046 - Mayores: acompañamiento al desarrollo</code><br><code>AC_ENC034 - Auditoría de diseños del servicio de citas</code></td><td>«prueba», títulos sin número de encargo</td></tr>
+    <tr><td><b>Test Plan</b></td><td><code>TP_CDGE-664 - DESK - A11y - Espacio Justicia</code><br><code>TP_CDGE-664 - APP - FUN - Espacio Justicia</code><br><code>TP_CDGE-874 - MOB - A11y - Carné Joven logo Ibercaja</code></td><td>«TP - Noviembre - a11y» (sin épica ni dispositivo)</td></tr>
+    <tr><td><b>Test Execution</b></td><td><code>TE_CDGE-664 - DESK - FUN - E2E casos principales</code><br><code>TE_CDGE-664 - IOS - DIS - Diseño Espacio Justicia</code><br><code>TE_CDGE-874 - MOB - A11y - Carné Joven logo Ibercaja</code></td><td>«REUTILIZAR test pantalla 2»</td></tr>
+    <tr><td><b>Test Set</b></td><td><code>TS_SOL - Comportamiento conversacional</code><br><code>TS_SOL - Gestión de errores</code></td><td>«a11y repositorio»</td></tr>
+    <tr><td><b>Test Case</b></td><td><code>TC_SOL-CON-009 - Cambio de contexto de Carné Joven a Mis citas</code><br><code>TC_WCAG-3.3.7 - Entrada de texto redundante</code><br><code>TC_DV-M-006 - Adjuntar y descargar archivos desde el móvil</code></td><td>«Funcional - Encuesta opinión - Ribbon amarillo» (sin código)</td></tr>
+    <tr><td><b>Precondiciones</b></td><td><code>PRE_SOL-001 - Usuario autenticado con sesión activa</code><br><code>PRE_SOL-002 - Ciudadano con borrador de gestión en curso</code></td><td>Repetir la misma preparación dentro de cada caso</td></tr>
+    <tr><td><b>Error</b></td><td><code>BUG - TC_SOL-CON-009 - C20-26280 El contexto no se mantiene al cambiar de espacio</code><br><code>BUG - WCAG-1.1.1 - C20-26280 Imagen con alt no descriptivo</code></td><td>«BUGS de C20-…» (agrupa varios fallos en uno)</td></tr>
+    <tr><td><b>Tarea</b></td><td><code>MaDi - Documentación - ribbon</code><br><code>MaDi - Documentación - bottom_bar</code></td><td>Tareas sin ámbito ni componente</td></tr>
+    <tr><td><b>Subtask</b></td><td><code>Escritorio</code><br><code>Mobile simulado</code></td><td>—</td></tr>
+    </tbody></table></div>
+  <div class="note info">Los ejemplos reutilizan datos reales del proyecto (épicas, números de historia C20-… y temas) pero con el formato estándar. Los de Precondiciones y Actividades de otros encargos son ilustrativos.</div>
+
+  <h3>Códigos que se usan en los títulos</h3>
+  <div class="cards">
+    <div class="card"><h4>Dispositivo</h4><p><code>DESK</code> escritorio · <code>MOB</code> móvil · <code>APP</code> aplicación · <code>IOS</code> · <code>Android</code>. Hoy conviven «DES», «Desktop» y «Escritorio»: usa <code>DESK</code>.</p></div>
+    <div class="card"><h4>Tipo de prueba</h4><p><code>FUN</code> funcional · <code>A11y</code> accesibilidad · <code>DIS</code> diseño · <code>UX/UI</code> · <code>REG</code> regresión (en uso: «Regresión», etiqueta <code>Regresivas_sol</code>).</p></div>
+    <div class="card"><h4>Referencia de épica</h4><p>La clave Jira de la épica, p. ej. <code>CDGE-664</code>. El número de encargo (<code>ENC046</code>) va en el título de la épica y de las actividades.</p></div>
+    <div class="card"><h4>Entorno (campo ENV)</h4><p>Solo en Test Case y Precondiciones: <code>DEV</code> · <code>VAL</code> · <code>PRE</code> · <code>PRO</code>.</p></div>
+  </div>
+  <div class="note ok"><b>Ejemplo completo.</b> Épica <code>CDGE-664</code> → <code>TP_CDGE-664 - DESK - A11y - Espacio Justicia</code> → <code>TE_CDGE-664 - MOB - FUN - E2E casos principales</code>.</div>
+</section>
+
+<section id="epica">
+  <h2>Épica (Encargo)</h2>
+  <p class="intro">Una épica es un encargo de Madrid Digital: el contenedor de todo lo que se hace para él. Agrupa funcionalidades, evoluciones o servicios y de ella cuelgan actividades, tareas, planes, ejecuciones y casos.</p>
+  <div class="note warn"><b>Dos tipos parecidos.</b> Jira tiene un tipo «Encargo» (definido para agrupar funcionalidades, evoluciones o servicios de un encargo de Madrid Digital) pero hoy el proyecto usa el tipo <b>Epic</b>: las 12 existentes son encargos o bolsas mensuales. Mientras no se decida migrar, crea el encargo como <b>Epic</b>.</div>
+  <h3>Estados de la épica</h3>
+  <p><span class="st todo">Backlog</span><span class="st prog">Preparación</span><span class="st prog">En curso</span><span class="st prog">En pausa</span><span class="st prog">En cierre</span><span class="st done">Cerrada</span><span class="st todo">Descartado</span></p>
+  <h3>Campos</h3>
+  <ul class="plain">
+    <li><b>Obligatorios:</b> Resumen, Proyecto, Informador y Colaboradores.</li>
+    <li><b>Habituales:</b> Persona asignada, Prioridad, Fecha de inicio, Fecha de vencimiento, Fecha de validación, Total horas estimadas, Etiquetas, Descripción.</li>
+  </ul>
+  <h3>Cómo crear un encargo</h3>
+  <ol class="steps">
+    <li>Pulsa <b>Crear</b> y elige el tipo <b>Epic</b> en el proyecto Cuenta Digital – Madrid Digital.</li>
+    <li>Escribe el resumen con el patrón <code>CD_ENC&lt;nº&gt; - Descripción</code>. Debe verse así: <code>CD_ENC046 - Diseño y seguimiento del desarrollo de los Espacios temáticos 2026</code> o <code>CD_ENC034 - Evolución funcional de Cuenta Digital y plantilla de servicio</code>. Si es una bolsa mensual: <code>NTT - Features - Noviembre 2026</code>.</li>
+    <li>Rellena Colaboradores, Persona asignada, fechas y horas estimadas.</li>
+    <li>En Descripción anota alcance, cliente en Madrid Digital y documentación de referencia.</li>
+    <li>Déjala en <b>Backlog</b> hasta que se confirme el encargo; pásala a <b>Preparación</b> al arrancar y a <b>En curso</b> cuando haya trabajo activo.</li>
+    <li>Al terminar, pasa por <b>En cierre</b> (revisión de entregables y horas) y después a <b>Cerrada</b>.</li>
+  </ol>
+  <h3>Bolsas mensuales NTT</h3>
+  <p>Las incidencias del equipo externo se agrupan por mes en épicas «NTT - Features - &lt;Mes&gt; 2026» (agosto a noviembre ya creadas). Bajo ellas viven el Test Plan de accesibilidad del mes, sus ejecuciones y los errores asociados.</p>
+</section>
+
+<section id="actividad">
+  <h2>Actividades</h2>
+  <p class="intro">Una actividad es una unidad de trabajo facturable y reportable que cuelga de la épica. Se describe en Jira como una historia de usuario con flujo de dos caminos: <b>End-to-end</b> o <b>Equipo externo</b>.</p>
+  <h3>Cómo se crea</h3>
+  <ol class="steps">
+    <li>Crea una incidencia de tipo <b>Actividades</b> y en <b>Principal</b> selecciona la épica del encargo.</li>
+    <li>Título: <code>AC_ENC&lt;nº&gt; - Descripción</code>. Por ejemplo: <code>AC_ENC046 - Empleo: sesiones, diseño final y especificaciones técnicas</code>.</li>
+    <li>Elige el <b>SUBTIPO</b> (lista de la sección siguiente) y escribe el <b>ENTREGABLE</b>.</li>
+    <li>Indica <b>Responsable Madrid</b>, <b>Fecha de entrega</b> y <b>Fecha de vencimiento</b>.</li>
+    <li>Reparte las horas por perfil: Analista Programador, Consultor, Consultor EB y Jefe de proyecto (todas obligatorias; la suma debe cuadrar con Horas estimadas).</li>
+    <li>Añade Entorno, Colaboradores y Etiquetas si aplica.</li>
+  </ol>
+  <div class="note info"><b>Ejemplo real:</b> AC_ENC046 Empleo, entrega 30-nov-2026, 39 h estimadas = 14 Consultor + 12 Consultor EB + 12 Jefe de proyecto + 1 Analista Programador.</div>
+  <h3>Estados de la actividad</h3>
+  <p>El flujo de Actividades tiene 16 estados. Léelos así (orden orientativo del ciclo; Jira no los impone en secuencia):</p>
+  <div class="tw"><table>
+    <thead><tr><th>Fase</th><th>Estados</th><th>Cuándo</th></tr></thead>
+    <tbody>
+    <tr><td>Entrada</td><td><span class="st todo">Backlog</span><span class="st todo">Por hacer</span></td><td>Creada pero sin empezar.</td></tr>
+    <tr><td>Definición</td><td><span class="st prog">Estrategia</span><span class="st prog">Investigación</span><span class="st prog">Diseño</span></td><td>Encuadre, research y diseño de la solución.</td></tr>
+    <tr><td>Construcción</td><td><span class="st prog">Desarrollo NTT</span><span class="st prog">DDF y OK Madrid</span></td><td>Implementa el equipo externo; se cierra la documentación de diseño funcional y se obtiene el visto bueno de Madrid.</td></tr>
+    <tr><td>Calidad</td><td><span class="st prog">Ready for VAL</span><span class="st prog">Validación en VAL</span><span class="st prog">Revisión A11y</span><span class="st prog">En corrección</span><span class="st todo">RETEST</span></td><td>Pruebas en validación, accesibilidad y vuelta a corregir.</td></tr>
+    <tr><td>Salida</td><td><span class="st prog">Smoke test PRO</span><span class="st prog">PRO</span><span class="st done">Cerrado</span></td><td>Humo en producción y cierre.</td></tr>
+    <tr><td>Fuera de flujo</td><td><span class="st todo">Descartado</span></td><td>Se cancela.</td></tr>
+    </tbody></table></div>
+  <div class="note warn"><b>Pendiente de confirmar:</b> qué estados pertenecen a cada camino (End-to-end o Equipo externo). La configuración visible no lo detalla; consúltalo en Configuración del proyecto → Flujos de trabajo.</div>
+</section>
+
+<section id="gestion">
+  <h2>Gestión</h2>
+  <p class="intro">Actividades de coordinación y gobierno. Subtipos del campo SUBTIPO: <code>Gestión del sistema de diseño (MADI)</code>, <code>Gestión de producto Cuenta Digital</code> y <code>Adopción, Comunicación, CRO y Difusión</code>.</p>
+  <div class="cards">
+    <div class="card"><h4>Sistema de diseño (MADI)</h4><p>Se ve hoy en la épica «MaDi - Documentación» y en 158 tareas «MaDi - Documentación - &lt;componente&gt;» (ribbon, show_more, menu_steps, bottom_bar…).</p></div>
+    <div class="card"><h4>Producto Cuenta Digital</h4><p>Seguimiento de la evolución del producto y de las plantillas de servicio (p. ej. CD-ENC034).</p></div>
+    <div class="card"><h4>Adopción y difusión</h4><p>Comunicación, CRO y difusión de los servicios.</p></div>
+  </div>
+  <h3>Cómo se usa</h3>
+  <ol class="steps">
+    <li>Crea la <b>Actividad</b> con el subtipo de gestión y el entregable (acta, informe, plan, documentación…).</li>
+    <li>Si hay trabajo por componente, desglósalo en <b>Tareas</b> hijas de la misma épica con el patrón <code>MaDi - Documentación - &lt;componente&gt;</code>.</li>
+    <li>Mueve la tarea: <span class="st todo">Tareas por hacer</span> → <span class="st prog">En curso</span> → <span class="st wait">Pending Validation</span> → <span class="st done">Finalizado</span>. Usa <span class="st fail">Blocked</span> con la etiqueta <code>bloqueo</code> si algo la detiene.</li>
+    <li>Etiqueta para poder filtrar: <code>MaDi</code>, <code>Documentación</code>.</li>
+    <li>Registra horas por perfil en la actividad padre.</li>
+  </ol>
+</section>
+
+<section id="analitica">
+  <h2>Analítica</h2>
+  <p class="intro">Medición y análisis de uso. SUBTIPO: <code>Analítica</code>. Apóyate también en <code>Adopción, Comunicación, CRO y Difusión</code> cuando el análisis sirva a optimización de conversión.</p>
+  <div class="note warn"><b>Sin casos aún.</b> No hay actividades de analítica creadas en CDGE (la consulta por subtipo devuelve 0). Este es el uso previsto según el flujo y los campos existentes.</div>
+  <ol class="steps">
+    <li>Crea la <b>Actividad</b> <code>AC_ENC&lt;nº&gt; - Análisis de …</code> con SUBTIPO <b>Analítica</b>.</li>
+    <li>Define el ENTREGABLE (informe, cuadro de mando, recomendaciones) y la Fecha de entrega.</li>
+    <li>Recorre <span class="st prog">Estrategia</span> (qué se mide) → <span class="st prog">Investigación</span> (obtención y análisis de datos).</li>
+    <li>Adjunta el informe o enlaza la fuente en la actividad y pásala a <span class="st done">Cerrado</span>.</li>
+    <li>Si el análisis genera mejoras, crea <b>Evolutivos</b> o <b>Tareas</b> enlazadas con <i>relates to</i>.</li>
+  </ol>
+</section>
+
+<section id="research">
+  <h2>Research</h2>
+  <p class="intro">Investigación con ciudadanía. SUBTIPO: <code>Investigación con ciudadanía</code>.</p>
+  <div class="note warn"><b>Sin casos aún.</b> Tampoco hay actividades de este subtipo; los pasos siguen el flujo configurado.</div>
+  <ol class="steps">
+    <li>Crea la <b>Actividad</b> con SUBTIPO <b>Investigación con ciudadanía</b> y entregable (informe de hallazgos, síntesis, guion de sesiones).</li>
+    <li>Fase <span class="st prog">Estrategia</span>: objetivos, perfil de participantes y método.</li>
+    <li>Fase <span class="st prog">Investigación</span>: sesiones y recogida de datos. Si hay cuestiones que bloquean, usa <span class="st fail">Blocked</span>.</li>
+    <li>Adjunta resultados y revisa con el responsable de Madrid; después <span class="st done">Cerrado</span>.</li>
+    <li>Enlaza los hallazgos con las actividades de Diseño que los consumen.</li>
+  </ol>
+  <div class="note warn"><b>Datos personales.</b> No subas a Jira nombres ni datos identificables de participantes; usa códigos (P01, P02…).</div>
+</section>
+
+<section id="diseno">
+  <h2>Diseño</h2>
+  <p class="intro">Diseño de servicios y acompañamiento al desarrollo. SUBTIPO: <code>Diseño de servicios horizontales</code>, <code>Auditoría diseños S1C</code>, <code>Soporte a construcción</code>.</p>
+  <div class="cards">
+    <div class="card"><h4>Diseño de servicios horizontales</h4><p>Diseño de piezas comunes a varios servicios.</p></div>
+    <div class="card"><h4>Auditoría diseños S1C</h4><p>Revisión de diseños recibidos frente al sistema de diseño.</p></div>
+    <div class="card"><h4>Soporte a construcción</h4><p>Acompañamiento mientras el equipo externo desarrolla. Ejemplo real: «AC_ENC046_ Empleo_Sesiones, diseño final, especificaciones técnicas de servicios, acompañamiento desarrollo».</p></div>
+  </div>
+  <ol class="steps">
+    <li>Crea la <b>Actividad</b> con el subtipo y descríbela en el título: sesiones, diseño final, especificaciones, acompañamiento.</li>
+    <li>Avanza por <span class="st prog">Diseño</span> y, al entregar especificaciones, por <span class="st prog">DDF y OK Madrid</span> hasta tener el visto bueno.</li>
+    <li>Con el equipo externo desarrollando: <span class="st prog">Desarrollo NTT</span>. Resuelve dudas en la propia actividad.</li>
+    <li>Cuando el diseño esté implementado, crea la <b>Test Execution</b> de diseño: <code>TE_&lt;épica&gt; - DESK - DIS - …</code> (y variantes IOS/Android APP).</li>
+    <li>Los defectos de diseño se registran como <b>Error</b> enlazado al caso (etiquetas <code>UI_UX</code>, <code>UX</code>).</li>
+  </ol>
+  <p>Ejemplo vivo: épica <code>CDGE-664</code> (CD_SJEL, Espacio Justicia) con ejecuciones <i>DIS-DESK</i>, <i>IOS-APP</i> y <i>Android-APP</i>.</p>
+</section>
+
+<section id="pruebas">
+  <h2>Pruebas</h2>
+  <p class="intro">Se gestionan con Xray. Estos son todos los tipos que intervienen, para qué sirve cada uno y cómo se usa hoy. El subtipo de actividad correspondiente es <code>Pruebas</code> (también <code>Accesibilidad</code> y <code>Control Calidad Servicios Externos Integrados</code>).</p>
+
+  <h3>Tipos de incidencia de pruebas</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Tipo</th><th>Para qué sirve</th><th>Uso hoy</th></tr></thead>
+    <tbody>
+    <tr><td><b>Test Case</b></td><td>Caso con pasos y resultado esperado. Campo <code>ENV</code> (DEV/VAL/PRE/PRO).</td><td class="num">483</td></tr>
+    <tr><td><b>Precondiciones</b></td><td>Estado previo reutilizable por varios casos.</td><td class="num">0</td></tr>
+    <tr><td><b>Test Set</b></td><td>Agrupa casos por tema para reutilizarlos.</td><td class="num">7</td></tr>
+    <tr><td><b>Test Plan</b></td><td>Planifica qué se prueba (dispositivo + tipo) y agrupa las ejecuciones.</td><td class="num">12</td></tr>
+    <tr><td><b>Test Execution</b></td><td>Una ronda de ejecución de un conjunto de casos.</td><td class="num">45</td></tr>
+    <tr><td><b>Error</b></td><td>Fallo detectado en una prueba.</td><td class="num">20</td></tr>
+    <tr><td><b>Defect</b></td><td>Tipo definido para defectos (el enlace «Defect: created by» lo conecta con el caso). Hoy se usa Error.</td><td class="num">0</td></tr>
+    </tbody></table></div>
+
+  <h3>Estados de un Test Case (resultado)</h3>
+  <p><span class="st todo">NOT RUN</span> sin ejecutar · <span class="st prog">En curso</span> · <span class="st done">PASSED</span> · <span class="st fail">FAILED</span> · <span class="st wait">Blocked</span> · <span class="st todo">RETEST</span> tras corregir · <span class="st todo">Descartado</span> no aplica</p>
+  <p>Estado actual de los 483 casos: 388 NOT RUN, 36 Blocked, 32 FAILED, 21 PASSED, 4 En curso, 2 Descartado.</p>
+
+  <h3>Estados de Test Plan y Test Execution</h3>
+  <p><span class="st todo">Backlog</span><span class="st todo">Tareas por hacer</span><span class="st todo">NOT RUN</span><span class="st prog">En curso</span><span class="st wait">Pending Validation</span><span class="st done">Finalizado</span><span class="st todo">Descartado</span>. Pending Validation indica que la ejecución terminó y espera revisión.</p>
+
+  <h3>Flujo completo paso a paso</h3>
+  <ol class="steps">
+    <li><b>Test Plan.</b> Crea el plan como hijo de la épica (<b>Principal</b>): <code>TP_CDGE-664 - DESK - A11y - …</code>. Un plan por combinación de dispositivo y tipo.</li>
+    <li><b>Precondiciones</b> (opcional). Si varios casos necesitan el mismo estado inicial, créala con <code>PRE_…</code> y enlázala desde los casos.</li>
+    <li><b>Test Cases.</b> Créalos bajo la épica con <code>TC_&lt;ámbito&gt;-&lt;área&gt;-&lt;nº&gt; - Descripción</code>. Rellena <b>ENV</b>, pasos y resultado esperado en Xray, y etiquetas (<code>VAL</code>, <code>Accesibilidad</code>, <code>Funcional</code>, <code>Desktop</code>/<code>Mobile</code>…). Los reutilizables llevan <code>reutilizar</code>.</li>
+    <li><b>Test Set</b> (opcional). Agrupa casos por tema: <code>TS_SOL - Funcionales</code>.</li>
+    <li><b>Test Execution.</b> Por dispositivo y tipo: <code>TE_&lt;épica&gt; - &lt;dispositivo&gt; - &lt;tipo&gt; - …</code>. Añade los casos, asigna persona y <b>Fecha de validación</b>. Pásala a <span class="st prog">En curso</span>.</li>
+    <li><b>Ejecutar.</b> Abre cada caso desde la ejecución y marca el resultado: <span class="st done">PASSED</span>, <span class="st fail">FAILED</span> o <span class="st wait">Blocked</span>. Adjunta evidencias.</li>
+    <li><b>Error.</b> Si falla, crea un <b>Error</b> hijo de la épica y enlázalo al caso (enlace <i>Test: is tested by</i> o <i>Defect: created by</i>). Etiqueta <code>Fallo_VAL</code> y dale prioridad. Título: <code>BUG - &lt;ID&gt; - …</code>.</li>
+    <li><b>Corrección y retest.</b> Cuando el equipo corrige, el caso pasa a <span class="st todo">RETEST</span>. Reejecuta; si hay muchos, usa una ejecución como «TE - Antiguos errores Octubre».</li>
+    <li><b>Cierre.</b> Con todos los casos resueltos, la ejecución pasa a <span class="st wait">Pending Validation</span> y luego a <span class="st done">Finalizado</span>. El plan se cierra cuando acaban sus ejecuciones.</li>
+  </ol>
+
+  <h3>Qué plan o ejecución usar según el caso</h3>
+  <div class="cards">
+    <div class="card"><h4>Accesibilidad mensual</h4><p>Un TP y un TE por mes bajo la épica «NTT - Features - &lt;Mes&gt;»: «TP - Noviembre - a11y». Casos con etiquetas <code>Accesibilidad</code>, <code>WCAG</code>, nivel <code>A</code>/<code>AA</code>.</p></div>
+    <div class="card"><h4>Repositorio WCAG / UNE</h4><p>Épica CDGE-384 «WCAG - A11Y - Repositorio»: casos por criterio (p. ej. 3.3.7) con etiqueta <code>UNE_EN_301_549</code>. Se reutilizan con ejecuciones «REUTILIZAR …».</p></div>
+    <div class="card"><h4>Agente SOL</h4><p>Épica CDGE-57: validación conversacional con muchas ejecuciones <code>TE-SOL-VAL-DESK-001 - &lt;tema&gt;</code>, regresión <code>TE-SOL-PRO-DESK-001</code> y móviles IOS/Android.</p></div>
+    <div class="card"><h4>Funcional por encargo</h4><p>Ejecuciones <code>TE-CDGE-664-FUN-DESK - E2E casos principales</code> y «casos complementarios».</p></div>
+  </div>
+  <div class="note info"><b>Etiquetas útiles ya en uso:</b> <code>VAL</code>, <code>PRO</code>, <code>Accesibilidad</code>, <code>Funcional</code>, <code>bloqueo</code>, <code>urgente</code>, <code>reutilizar</code>, <code>refactorizar</code>, <code>Regresivas_sol</code>, <code>Desktop</code>, <code>Mobile</code>, <code>Fallo_VAL</code>, <code>bugs_viejos</code>.</div>
+</section>
+
+<section id="informes">
+  <h2>Cómo sacar informes</h2>
+  <p class="intro">Hay tres vías: el dashboard, la vista de Xray en cada plan o ejecución, y la búsqueda con JQL exportable.</p>
+
+  <h3>1. Dashboard «Agosto 2026»</h3>
+  <p>Menú <b>Paneles</b> → «Agosto 2026». Trae cinco gadgets: Evolución de pruebas, Tests por tipos de test, Lista de planes de testing, Cobertura de tests general (VAL) y Mis asignaciones. Para un mes nuevo, duplica el panel y cambia los filtros de cada gadget.</p>
+  <h3>2. Desde un Test Plan o Test Execution</h3>
+  <ol class="steps">
+    <li>Abre el Test Plan o la Test Execution.</li>
+    <li>Baja al panel de Xray: ahí aparecen las ejecuciones o los casos y su estado agregado (PASSED, FAILED, NOT RUN, Blocked).</li>
+    <li>Para compartir el resultado de un mes, enlaza el plan y el dashboard en el correo o acta.</li>
+  </ol>
+  <div class="note warn"><b>Verificar en vuestra versión.</b> Los nombres exactos de las pestañas de informe de Xray pueden variar; los gadgets del dashboard sí están confirmados.</div>
+  <h3>3. Búsqueda JQL y exportación</h3>
+  <p>Menú <b>Filtros</b> → <b>Búsqueda avanzada</b>, pega la consulta y usa <b>Exportar</b> (CSV o Excel). Estas consultas se han ejecutado contra el proyecto y devuelven resultados.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Informe</th><th>JQL</th><th class="num">Hoy</th></tr></thead>
+    <tbody>
+    <tr><td>Resultado de casos de una épica</td><td><div class="pat"><code>project = CDGE AND issuetype = "Test Case" AND parent = CDGE-379 ORDER BY status</code><button class="cp" data-t='project = CDGE AND issuetype = "Test Case" AND parent = CDGE-379 ORDER BY status'>Copiar</button></div></td><td class="num">19</td></tr>
+    <tr><td>Casos con problemas</td><td><div class="pat"><code>project = CDGE AND issuetype = "Test Case" AND status in (FAILED, Blocked, RETEST)</code><button class="cp" data-t='project = CDGE AND issuetype = "Test Case" AND status in (FAILED, Blocked, RETEST)'>Copiar</button></div></td><td class="num">68</td></tr>
+    <tr><td>Casos sin ejecutar</td><td><div class="pat"><code>project = CDGE AND issuetype = "Test Case" AND status = "NOT RUN"</code><button class="cp" data-t='project = CDGE AND issuetype = "Test Case" AND status = "NOT RUN"'>Copiar</button></div></td><td class="num">388</td></tr>
+    <tr><td>Fallos de accesibilidad</td><td><div class="pat"><code>project = CDGE AND labels = Accesibilidad AND issuetype = "Test Case" AND status = FAILED</code><button class="cp" data-t='project = CDGE AND labels = Accesibilidad AND issuetype = "Test Case" AND status = FAILED'>Copiar</button></div></td><td class="num">2</td></tr>
+    <tr><td>Errores abiertos</td><td><div class="pat"><code>project = CDGE AND issuetype = Error AND statusCategory != Done</code><button class="cp" data-t='project = CDGE AND issuetype = Error AND statusCategory != Done'>Copiar</button></div></td><td class="num">0</td></tr>
+    <tr><td>Planes y ejecuciones de un encargo</td><td><div class="pat"><code>project = CDGE AND issuetype in ("Test Plan","Test Execution") AND parent = CDGE-664</code><button class="cp" data-t='project = CDGE AND issuetype in ("Test Plan","Test Execution") AND parent = CDGE-664'>Copiar</button></div></td><td class="num">11</td></tr>
+    <tr><td>Ejecuciones pendientes de validar</td><td><div class="pat"><code>project = CDGE AND issuetype = "Test Execution" AND status = "Pending Validation"</code><button class="cp" data-t='project = CDGE AND issuetype = "Test Execution" AND status = "Pending Validation"'>Copiar</button></div></td><td class="num">18</td></tr>
+    <tr><td>Actividades por subtipo</td><td><div class="pat"><code>project = CDGE AND issuetype = Actividades AND SUBTIPO = Pruebas</code><button class="cp" data-t='project = CDGE AND issuetype = Actividades AND SUBTIPO = Pruebas'>Copiar</button></div></td><td class="num">0</td></tr>
+    </tbody></table></div>
+  <p>Cambia <code>CDGE-379</code> o <code>CDGE-664</code> por la épica que quieras informar.</p>
+</section>
+
+<section id="otros">
+  <h2>Otros tipos de incidencia</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Tipo</th><th>Cuándo usarlo</th><th class="num">En uso</th></tr></thead>
+    <tbody>
+    <tr><td><b>Tarea</b></td><td>Trabajo pequeño y suelto. Hoy casi todas son de documentación del sistema de diseño MaDi.</td><td class="num">159</td></tr>
+    <tr><td><b>Historia</b></td><td>Funcionalidad como objetivo de usuario.</td><td class="num">1</td></tr>
+    <tr><td><b>Evolutivo</b></td><td>Cambio sobre algo ya existente.</td><td class="num">0</td></tr>
+    <tr><td><b>Feature</b></td><td>Funcionalidad amplia.</td><td class="num">0</td></tr>
+    <tr><td><b>Recurso</b></td><td>Elemento digital o físico a seguir.</td><td class="num">0</td></tr>
+    <tr><td><b>Subtask</b></td><td>Pieza pequeña de otra incidencia (p. ej. Escritorio y Mobile simulado bajo una tarea).</td><td class="num">2</td></tr>
+    </tbody></table></div>
+  <h3>Tipos de enlace disponibles</h3>
+  <p><i>Blocks</i> · <i>Duplicate</i> · <i>Relates</i> · <i>Cloners</i> · <i>Test</i> (tests / is tested by) · <i>Defect</i> (created / created by).</p>
+</section>
+
+<section id="revisar">
+  <h2>Puntos a revisar</h2>
+  <p class="intro">Cosas que he visto en el proyecto y que conviene decidir antes de dar el manual por cerrado.</p>
+  <ul class="plain">
+    <li><b>Prefijos mezclados.</b> Existen <code>TP-</code>, <code>TP_</code> y <code>TP -</code> (y lo mismo con TE). Si adoptáis el guion bajo, habría que renombrar los existentes.</li>
+    <li><b>Encargo sin uso.</b> El tipo «Encargo» está definido pero todos los encargos son Epic.</li>
+    <li><b>Defect sin uso.</b> Los fallos se registran como Error.</li>
+    <li><b>Ejecuciones con nombre de plan.</b> CDGE-828 y 829 son Test Execution pero se titulan «TP-SOL-MOB-…».</li>
+    <li><b>Actividad de prueba.</b> CDGE-897 se llama «prueba» y puede borrarse.</li>
+    <li><b>Subtipos sin actividades.</b> Solo hay tres actividades creadas, ninguna con subtipo de Analítica, Research o Pruebas; esas secciones describen el uso previsto.</li>
+    <li><b>Ejecución de reutilizables.</b> Hay ejecuciones llamadas «REUTILIZAR …» sin dispositivo ni tipo.</li>
+    <li><b>Dispositivos.</b> Se escribe DES, DESK, Desktop y Escritorio indistintamente.</li>
+  </ul>
+</section>
+
+<footer>Elaborado a partir de la configuración real del proyecto CDGE (tipos, flujos, campos, dashboard y 744 incidencias) el 9 de noviembre de 2026. Si algo cambia en Jira, hay que actualizar este manual.</footer>
+</main>
+</div>
+
+<script>
+document.querySelectorAll('.cp').forEach(function(b){
+  b.addEventListener('click',function(){
+    var t=b.getAttribute('data-t'), o=b.textContent;
+    function done(){b.textContent='Copiado';setTimeout(function(){b.textContent=o},1400)}
+    try{navigator.clipboard.writeText(t).then(done,function(){sel(b)})}catch(e){sel(b)}
+  });
+});
+function sel(b){var c=b.parentNode.querySelector('code');if(!c)return;var r=document.createRange();r.selectNodeContents(c);var s=window.getSelection();s.removeAllRanges();s.addRange(r)}
+</script>
+</body></html>
