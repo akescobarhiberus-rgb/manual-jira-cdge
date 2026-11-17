@@ -678,6 +678,26 @@ Paso la actividad a DDF y OK Madrid y te la reasigno para que la envíes al clie
 <tr><td>Actividades por subtipo</td><td><div class="pat"><code>project = CDGE AND issuetype = Actividades AND SUBTIPO = Pruebas</code><button class="cp" data-t='project = CDGE AND issuetype = Actividades AND SUBTIPO = Pruebas'>Copiar</button></div></td><td class="num">0</td></tr>
 </tbody></table></div>
 <p>Cambia <code>CDGE-379</code> o <code>CDGE-664</code> por la épica que quieras informar.</p>
+<h3>4. Exportar documentos e informe a cliente (Xray Document Generator)</h3>
+<p>Los documentos de pruebas (informe de un Test Plan, de una ejecución…) se exportan con el <b>Document Generator de Xray</b>: toma una plantilla Word y la rellena con los datos reales del plan en Jira. El informe que se entrega al cliente sale siempre de aquí.</p>
+<div class="note warn"><b>Verificar en vuestra versión.</b> Los nombres exactos de menús y botones pueden variar según la versión de Xray. Los pasos describen el recorrido habitual; si algún nombre es distinto, avisa para corregirlo.</div>
+<h4>Antes de exportar</h4>
+<ol>
+<li>Comprueba que <b>todas las Test Execution están dentro del Test Plan</b> (el informe del plan solo recoge las que contiene).</li>
+<li>Revisa que los casos tienen resultado (PASSED, FAILED, Blocked…) y que los errores están enlazados a sus casos.</li>
+<li>Ten a mano la plantilla: <b>«Informe Test Plan - entrega clientes v6 (sin pasos)»</b> (casos, estado actual y errores, sin pasos) o la versión <b>v5 (con Bugs)</b> si el cliente pide el detalle de los pasos.</li>
+</ol>
+<h4>Pasos</h4>
+<ol>
+<li>En el proyecto CDGE abre el menú <b>Xray</b> de la barra superior y entra en el <b>Document Generator</b> (dentro del Reporting Center).</li>
+<li>Elige la <b>plantilla</b> de informe. Si es la primera vez, súbela desde su archivo <code>.docx</code> con la opción de añadir plantilla.</li>
+<li>Selecciona el <b>Test Plan</b> del que quieres el informe (por ejemplo <code>TP_CDGE-664 - DESK - A11y - …</code>), por clave o con un filtro.</li>
+<li>Pulsa <b>Generar</b> y espera a que termine.</li>
+<li><b>Descarga</b> el documento <code>.docx</code>.</li>
+<li>Ábrelo y revísalo: título, fechas, que aparezcan todas las ejecuciones y que los estados y errores coincidan con Jira.</li>
+<li>Si el cliente lo pide en PDF, expórtalo desde Word. Envíalo como entrega y deja constancia en un comentario de la actividad con mención, indicando fecha y destinatario.</li>
+</ol>
+<div class="note info"><b>Si falta una ejecución o un dato.</b> No se corrige en el Word: se arregla en Jira (añadir la ejecución al plan, actualizar el estado del caso) y se vuelve a generar.</div>
 </section>
 <section id="otros">
 <h2>Otros tipos de incidencia</h2>
