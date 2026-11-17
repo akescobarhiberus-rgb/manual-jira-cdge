@@ -99,6 +99,7 @@ nav.toc a{border:1px solid var(--line);border-radius:99px;padding:3px 10px;backg
 <a href="#epica">Épica (Encargo)</a>
 <a href="#actividad">Actividades</a>
 <a href="#subtareas">Subtareas</a>
+<a href="#equipos">Trabajo de los equipos</a>
 <a href="#automatizaciones">Automatizaciones</a>
 <div class="grp">Por subtipo</div>
 <a href="#gestion">Gestión</a>
@@ -353,6 +354,62 @@ nav.toc a{border:1px solid var(--line);border-radius:99px;padding:3px 10px;backg
 <div class="note info"><b>Pendiente de decidir.</b> El campo es opcional y solo existe en Subtareas. Si se quiere hacerlo obligatorio, o añadirlo también en Actividades o en HDU, hay que pedirlo al administrador de Jira.</div>
 <div class="note warn"><b>Estados.</b> Una subtarea comparte los estados de Tarea (23 en total, entre ellos Diseño, Investigación, Revisión interna, Revisión cliente, Finalizado y Cerrada). Elige solo los de tu equipo.</div>
 </section>
+<section id="equipos">
+<h2>Trabajo de los equipos</h2>
+<p class="intro">Cómo trabajan sobre las actividades Diseño, QA y el resto de equipos que no son Gestión. Gestión crea y planifica la actividad; los demás la reciben, la ejecutan y la mantienen al día en Jira.</p>
+
+<div class="note ok"><b>Regla de oro.</b> Jira es el único sitio donde queda constancia del trabajo. Lo que se decide o se entrega por Teams, correo o de palabra no existe para el resto del equipo hasta que se escribe en la actividad.</div>
+
+<h3>1. Gestión entrega la actividad completa</h3>
+<p>Ningún equipo debe recibir una actividad a medias. Antes de asignarla, Gestión rellena todos los campos:</p>
+<ul>
+<li><b>Título</b> con el patrón <code>AC_ENC&lt;nº&gt; - Descripción</code> y la <b>épica</b> en Principal.</li>
+<li><b>SUBTIPO</b> y <b>ENTREGABLE</b> (qué hay que entregar exactamente).</li>
+<li><b>Responsable Madrid</b>, <b>Fecha de entrega</b> y <b>Fecha de vencimiento</b>.</li>
+<li><b>Estimación original</b> y horas planificadas, y <b>persona asignada</b>.</li>
+<li><b>Descripción</b> con el alcance y la documentación de referencia.</li>
+</ul>
+<p><b>Si la recibes incompleta,</b> no empieces: comenta en la actividad mencionando a quien la creó (<code>@persona</code>) indicando qué campo falta.</p>
+
+<h3>2. Qué hace cada equipo con su actividad</h3>
+<div class="tw"><table>
+<thead><tr><th>Acción</th><th>Cómo</th></tr></thead>
+<tbody>
+<tr><td><b>Transicionar el estado</b></td><td>Quien trabaja la actividad es quien la mueve por su flujo (Diseño, Investigación, Revisión A11y, RETEST…). No esperes a que lo haga Gestión. Mueve el estado cuando el trabajo cambia de fase, no al final de la semana.</td></tr>
+<tr><td><b>Asignar a quien corresponda</b></td><td>Al cambiar de estado, reasigna la actividad a la persona o equipo que tiene que actuar a continuación. Una actividad nunca debe quedar asignada a quien ya terminó su parte.</td></tr>
+<tr><td><b>Comentar con mención</b></td><td>Toda comunicación sobre la actividad va en la sección <b>Comentarios</b> de Jira, mencionando con <code>@nombre</code> a quien deba leerla. No uses Teams para esto: la mención avisa a la persona y deja el histórico en la tarea.</td></tr>
+<tr><td><b>Actualizar el estatus en la descripción</b></td><td>Mantén en la descripción un bloque «Última actualización» con la fecha, el estado del trabajo y los entregables: archivos adjuntos y enlaces (Figma, SharePoint, informe, evidencias…). Sustituye el anterior para que quien abra la tarea vea siempre lo último.</td></tr>
+<tr><td><b>Registrar horas</b></td><td>Anota tus horas en tu campo de horas de la actividad (ver <a href="#automatizaciones">Automatizaciones</a>). Los totales por perfil se calculan solos.</td></tr>
+</tbody>
+</table></div>
+
+<h3>3. Bloque «Última actualización» en la descripción</h3>
+<p>Cópialo al principio de la descripción y actualízalo cada vez que haya un avance o una entrega:</p>
+<div class="note info" style="white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace;font-size:13px">ÚLTIMA ACTUALIZACIÓN – dd/mm/aaaa – &lt;tu nombre&gt;
+Estado: &lt;en qué punto está el trabajo&gt;
+Entregado: &lt;archivo adjunto / enlace a Figma, SharePoint, informe…&gt;
+Pendiente: &lt;qué falta y de quién depende&gt;
+Siguiente paso: &lt;qué hará y quién&gt;</div>
+<p>Las actualizaciones anteriores no se borran: pásalas al final bajo «Histórico» o quedan en el historial de la tarea.</p>
+
+<h3>4. Ejemplo de comentario</h3>
+<div class="note info" style="white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace;font-size:13px">@persona asignada de Gestión: los diseños de AC_ENC046 están listos en Figma (enlace en la descripción).
+Paso la actividad a DDF y OK Madrid y te la reasigno para que la envíes al cliente.</div>
+
+<h3>5. Responsabilidades por equipo</h3>
+<div class="tw"><table>
+<thead><tr><th>Equipo</th><th>Recibe</th><th>Mueve y entrega</th></tr></thead>
+<tbody>
+<tr><td><b>Diseño</b></td><td>Actividad de diseño con entregable y fechas.</td><td>Pasa por Diseño hasta DDF y OK Madrid; adjunta o enlaza los diseños y reasigna al responsable de enviarlos.</td></tr>
+<tr><td><b>QA</b></td><td>Actividad de pruebas o evolutivo a validar.</td><td>Pasa por Ready for VAL, Validación en VAL, Revisión A11y, En corrección y RETEST; enlaza Test Plan, ejecuciones y errores; reasigna a quien deba corregir.</td></tr>
+<tr><td><b>Research y Analítica</b></td><td>Actividad con sus subtareas <code>RS_</code> / <code>AN_</code>.</td><td>Mueve cada subtarea; al terminarlas todas, pasa la actividad al estado siguiente y adjunta el informe.</td></tr>
+<tr><td><b>Otros equipos</b></td><td>Actividad completa.</td><td>Mismas reglas: estado, asignación, comentarios con mención y descripción al día.</td></tr>
+</tbody>
+</table></div>
+
+<div class="note warn"><b>Pendiente de acordar.</b> Qué estados puede mover cada equipo y a quién se reasigna en cada cambio de estado. Si se quiere, se puede automatizar el cambio de persona asignada en algunas transiciones.</div>
+</section>
+
 <section id="automatizaciones">
 <h2>Automatizaciones</h2>
 <p class="intro">Jira ejecuta flujos automáticos en este proyecto: avisan de datos que faltan, comentan cambios importantes y calculan horas. Aquí está qué hace cada uno y cuándo salta.</p>
