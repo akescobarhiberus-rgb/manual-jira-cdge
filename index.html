@@ -486,11 +486,11 @@ nav.toc a{border:1px solid var(--line);border-radius:99px;padding:3px 10px;backg
 <li><b>Precondiciones</b> (opcional). Si varios casos necesitan el mismo estado inicial, créala con <code>PRE_…</code> y enlázala desde los casos.</li>
 <li><b>Test Cases.</b> Créalos bajo la épica con <code>TC_&lt;ámbito&gt;-&lt;área&gt;-&lt;nº&gt; - Descripción</code>. Rellena <b>ENV</b>, pasos y resultado esperado en Xray, y etiquetas (<code>VAL</code>, <code>Accesibilidad</code>, <code>Funcional</code>, <code>Desktop</code>/<code>Mobile</code>…). Los reutilizables llevan <code>reutilizar</code>.</li>
 <li><b>Test Set</b> (opcional). Agrupa casos por tema: <code>TS_SOL - Funcionales</code>.</li>
-<li><b>Test Execution.</b> Por dispositivo y tipo: <code>TE_&lt;épica&gt; - &lt;dispositivo&gt; - &lt;tipo&gt; - …</code>. Añade los casos, asigna persona y <b>Fecha de validación</b>. Pásala a <span class="st prog">En curso</span>.</li>
+<li><b>Test Execution.</b> Por dispositivo y tipo: <code>TE_&lt;épica&gt; - &lt;dispositivo&gt; - &lt;tipo&gt; - …</code>. Añade los casos, asigna persona y <b>Fecha de validación</b>. Pásala a <span class="st prog">En curso</span>. <b>Obligatorio: añade la Test Execution al Test Plan</b> que le corresponde (en el Test Plan, pestaña de ejecuciones → <i>Add Test Execution</i>). Así el plan reúne todas sus ejecuciones y se puede sacar un único informe de todo.</li>
 <li><b>Ejecutar.</b> Abre cada caso desde la ejecución y marca el resultado: <span class="st done">PASSED</span>, <span class="st fail">FAILED</span> o <span class="st wait">Blocked</span>. Adjunta evidencias.</li>
 <li><b>Error.</b> Si falla, crea un <b>Error</b> hijo de la épica y enlázalo al caso (enlace <i>Test: is tested by</i> o <i>Defect: created by</i>). Etiqueta <code>Fallo_VAL</code> y dale prioridad. Título: <code>BUG - &lt;ID&gt; - …</code>.</li>
 <li><b>Corrección y retest.</b> Cuando el equipo corrige, el caso pasa a <span class="st todo">RETEST</span>. Reejecuta; si hay muchos, usa una ejecución como «TE - Antiguos errores Octubre».</li>
-<li><b>Cierre.</b> Con todos los casos resueltos, la ejecución pasa a <span class="st wait">Pending Validation</span> y luego a <span class="st done">Finalizado</span>. El plan se cierra cuando acaban sus ejecuciones.</li>
+<li><b>Cierre.</b> Con todos los casos resueltos, la ejecución pasa a <span class="st wait">Pending Validation</span> y luego a <span class="st done">Finalizado</span>. El plan se cierra cuando acaban sus ejecuciones (todas deben estar dentro del plan para que el informe del plan las recoja).</li>
 </ol>
 <h3>Qué plan o ejecución usar según el caso</h3>
 <div class="cards">
@@ -508,7 +508,8 @@ nav.toc a{border:1px solid var(--line);border-radius:99px;padding:3px 10px;backg
 <ul class="plain">
 <li>Cada mes tiene su propia épica: <code>NTT - Features - &lt;Mes&gt; 2026</code>. Hoy: <code>CDGE-4</code> (agosto), <code>CDGE-167</code> (septiembre), <code>CDGE-379</code> (octubre) y <code>CDGE-874</code> (noviembre).</li>
 <li>Bajo la épica del mes cuelgan las tareas de QA: el <b>Test Plan</b> de accesibilidad, las <b>Test Execution</b>, los <b>Test Case</b> de cada Jira de NTT y los <b>Error</b> encontrados.</li>
-<li>El código del Jira de NTT (<code>C20-nnnnn</code>) va en el título del caso, de la ejecución o del error. Ejemplo: <code>TE_CDGE-874 - DESK - A11y - C20-26280 Carné Joven - Logo Ibercaja …</code>.</li>
+<li>El código del Jira de NTT (<code>C20-nnnnn</code>) va en el título del caso, de la ejecución o del error. Ejemplo de <b>Test Execution</b> (TE): <code>TE_CDGE-874 - DESK - A11y - C20-26280 Carné Joven - Logo Ibercaja …</code>.</li>
+<li><b>Todas las Test Execution de la épica del mes se añaden a su Test Plan</b> (<code>TP_…</code>). Es lo que permite exportar el informe completo del mes desde el plan, en lugar de abrir ejecución por ejecución.</li>
 </ul>
 <h3>Etiquetas obligatorias</h3>
 <p>Todas las tareas de QA de NTT llevan dos etiquetas, además de las de tipo (<code>Accesibilidad</code>, <code>VAL</code>, <code>Funcional</code>…):</p>
