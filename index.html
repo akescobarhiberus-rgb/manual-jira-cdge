@@ -247,11 +247,11 @@ nav.toc a{border:1px solid var(--line);border-radius:99px;padding:3px 10px;backg
 <p class="intro">Una actividad es una unidad de trabajo facturable y reportable que cuelga de la épica. Se describe en Jira como una historia de usuario con flujo de dos caminos: <b>End-to-end</b> o <b>Equipo externo</b>.</p>
 <h3>Cómo se crea</h3>
 <ol class="steps">
-<li>Crea una incidencia de tipo <b>Actividades</b> y en <b>Principal</b> selecciona la épica del encargo.</li>
+<li><b>Solo Gestión crea las actividades.</b> Crea una incidencia de tipo <b>Actividades</b> y en <b>Principal</b> selecciona la épica del encargo. Un flujo automático le añade la etiqueta con el código de la épica.</li>
 <li>Título: <code>AC_ENC&lt;nº&gt; - Descripción</code>. Por ejemplo: <code>AC_ENC046 - Empleo: sesiones, diseño final y especificaciones técnicas</code>.</li>
-<li>Elige el <b>SUBTIPO</b> (lista de la sección siguiente) y escribe el <b>ENTREGABLE</b>.</li>
-<li>Indica <b>Responsable Madrid</b>, <b>Fecha de entrega</b> y <b>Fecha de vencimiento</b>.</li>
-<li>Rellena la <b>Estimación original</b> (si falta, Jira te lo recuerda con un comentario) y las horas. Los totales por perfil (Analista Programador, Consultor, Consultor EB, Jefe de proyecto) son obligatorios al crear y después se recalculan solos a partir de las horas de cada persona. Ver <a href="#automatizaciones">Automatizaciones</a>.</li>
+<li>Elige el <b>SUBTIPO</b> (lista de la sección siguiente) y escribe el <b>ENTREGABLE</b> (por ejemplo: «Figma del diseño según requisitos establecidos»). Completa la <b>Descripción general de la actividad</b>.</li>
+<li>Indica la <b>Prioridad</b>, el <b>Responsable Madrid</b>, la <b>Fecha de entrega</b> y la fecha de revisión (campo <b>Fecha de vencimiento</b>).</li>
+<li>Rellena la <b>Estimación original</b> y las horas: <b>Horas planificadas</b> y las horas por perfil (Analista Programador, Consultor, Consultor EB, Jefe de proyecto), obligatorias al crear. Ver <a href="#automatizaciones">Automatizaciones</a>.</li>
 <li>Añade Entorno, Colaboradores y Etiquetas si aplica.</li>
 </ol>
 <div class="note info"><b>Ejemplo real:</b> AC_ENC046 Empleo, entrega 30-nov-2026, 39 h estimadas = 14 Consultor + 12 Consultor EB + 12 Jefe de proyecto + 1 Analista Programador.</div>
@@ -389,9 +389,9 @@ nav.toc a{border:1px solid var(--line);border-radius:99px;padding:3px 10px;backg
 <p>Ningún equipo debe recibir una actividad a medias. Antes de asignarla, Gestión rellena todos los campos:</p>
 <ul>
 <li><b>Título</b> con el patrón <code>AC_ENC&lt;nº&gt; - Descripción</code> y la <b>épica</b> en Principal.</li>
-<li><b>SUBTIPO</b> y <b>ENTREGABLE</b> (qué hay que entregar exactamente).</li>
-<li><b>Responsable Madrid</b>, <b>Fecha de entrega</b> y <b>Fecha de vencimiento</b>.</li>
-<li><b>Estimación original</b> y horas planificadas, y <b>persona asignada</b>.</li>
+<li><b>Descripción general de la actividad</b> (qué hay que hacer y para qué), <b>SUBTIPO</b> y <b>ENTREGABLE</b> (qué hay que entregar exactamente, por ejemplo «Figma del diseño según requisitos establecidos»).</li>
+<li><b>Prioridad</b>, <b>Responsable Madrid</b>, <b>Fecha de entrega</b> y fecha de revisión (campo <b>Fecha de vencimiento</b>).</li>
+<li><b>Estimación original</b>, horas planificadas y <b>persona asignada</b>.</li>
 <li><b>Descripción</b> con el alcance y la documentación de referencia.</li>
 </ul>
 <p><b>Si la recibes incompleta,</b> no empieces: comenta en la actividad mencionando a quien la creó (<code>@persona</code>) indicando qué campo falta.</p>
@@ -404,7 +404,7 @@ nav.toc a{border:1px solid var(--line);border-radius:99px;padding:3px 10px;backg
 <tr><td><b>Asignar a quien corresponda</b></td><td>Al cambiar de estado, reasigna la actividad a la persona o equipo que tiene que actuar a continuación. Una actividad nunca debe quedar asignada a quien ya terminó su parte.</td></tr>
 <tr><td><b>Comentar con mención</b></td><td>Toda comunicación sobre la actividad va en la sección <b>Comentarios</b> de Jira, mencionando con <code>@nombre</code> a quien deba leerla. No uses Teams para esto: la mención avisa a la persona y deja el histórico en la tarea.</td></tr>
 <tr><td><b>Actualizar el estatus en la descripción</b></td><td>Mantén en la descripción un bloque «Última actualización» con la fecha, el estado del trabajo y los entregables: archivos adjuntos y enlaces (Figma, SharePoint, informe, evidencias…). Sustituye el anterior para que quien abra la tarea vea siempre lo último.</td></tr>
-<tr><td><b>Registrar horas</b></td><td>Anota tus horas en tu campo de horas de la actividad (ver <a href="#automatizaciones">Automatizaciones</a>). Los totales por perfil se calculan solos.</td></tr>
+<tr><td><b>Registrar horas</b></td><td>Anota tus horas en el campo de horas de tu perfil de la actividad (ver <a href="#automatizaciones">Automatizaciones</a>).</td></tr>
 </tbody>
 </table></div>
 
@@ -437,20 +437,21 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 
 <section id="automatizaciones">
 <h2>Automatizaciones</h2>
-<p class="intro">Jira ejecuta flujos automáticos en este proyecto: avisan de datos que faltan, comentan cambios importantes y calculan horas. Aquí está qué hace cada uno y cuándo salta.</p>
+<p class="intro">Jira ejecuta flujos automáticos en este proyecto: etiquetan, avisan de datos que faltan, comentan cambios importantes y suman horas. Aquí está qué hace cada uno y cuándo salta.</p>
 <div class="tw"><table>
 <thead><tr><th>Flujo</th><th>Cuándo salta</th><th>Qué hace</th><th>Estado</th></tr></thead>
 <tbody>
 <tr><td><b>Aviso: actividad creada sin épica asociada</b></td><td>Al crear una incidencia</td><td>Si no tiene épica en <b>Principal</b>, comenta mencionando a quien la creó.</td><td><span class="st done">Activo</span></td></tr>
-<tr><td><b>Aviso: actividad creada sin Estimación original</b></td><td>Al crear una Actividad</td><td>Si la Estimación original está vacía, comenta mencionando a quien la creó.</td><td><span class="st done">Activo</span></td></tr>
+<tr><td><b>Aviso: actividad creada sin Estimación original</b></td><td>Al crear una Actividad</td><td>Si la Estimación original está vacía, comenta mencionando a quien la creó.</td><td><span class="st todo">Desactivado</span></td></tr>
+<tr><td><b>Actividad creada: etiqueta con el código de la épica</b></td><td>Al crear una Actividad</td><td>Si tiene épica del proyecto (clave CDGE-…), le añade la etiqueta con el código de esa épica.</td><td><span class="st done">Activo</span></td></tr>
 <tr><td><b>Actividad devuelta por NTT: comentario automático</b></td><td>Al poner «Devuelto por NTT» en SI</td><td>Comenta en la actividad quién lo indicó y la fecha.</td><td><span class="st done">Activo</span></td></tr>
 <tr><td><b>Actividad en DDF/OK Madrid: avisar al Owner de la épica</b></td><td>Al pasar a «DDF/OK Madrid»</td><td>Comenta en la épica mencionando a su persona asignada.</td><td><span class="st done">Activo</span></td></tr>
-<tr><td><b>Horas por persona: sumar en Horas Jefe de proyecto / Consultor / Consultor EB / Analista Programador</b></td><td>Al actualizar una Actividad</td><td>Suma las horas de cada persona en el total de su perfil.</td><td><span class="st done">Activo</span></td></tr>
+<tr><td><b>Horas por persona: sumar en Horas Jefe de proyecto / Consultor / Consultor EB / Analista Programador</b></td><td>Al actualizar una Actividad</td><td>Sumaba las horas de cada persona en el total de su perfil.</td><td><span class="st todo">Desactivado</span></td></tr>
 <tr><td><b>Epic: sumar horas estimadas de sus actividades</b></td><td>Al cambiar las horas por perfil de una actividad</td><td>Recalcula en la épica los totales de horas a partir de todas sus actividades.</td><td><span class="st done">Activo</span></td></tr>
 <tr><td><b>Actividad: sumar horas por rol en Horas estimadas</b></td><td>Al cambiar las horas por perfil</td><td>Escribía el total en el campo «Horas estimadas», que ya no existe.</td><td><span class="st todo">Desactivado</span></td></tr>
 </tbody></table></div>
 <h3>Avisos al crear una actividad</h3>
-<p>Dos flujos comprueban los datos mínimos en el momento de crear y dejan un comentario si falta algo. El comentario menciona a la persona que creó la incidencia, para que la corrija en ese momento.</p>
+<p>Dos flujos comprueban los datos mínimos en el momento de crear y dejan un comentario si falta algo. Hoy solo el aviso de «sin épica» está activo; el de «sin Estimación original» está desactivado. El comentario menciona a la persona que creó la incidencia, para que la corrija en ese momento.</p>
 <h4>Sin épica asociada</h4>
 <p>Texto: «@persona la actividad CDGE-xxx no tiene una épica asociada. Por favor, añade la épica correspondiente en el campo Principal.»</p>
 <ul class="plain">
@@ -458,23 +459,31 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <li>Cómo corregirlo: abre la incidencia y rellena <b>Principal</b> con la épica del encargo.</li>
 <li>Alcance: la condición comprueba «tipo distinto de Epic», no que sea una Actividad. Puede avisar también al crear otros tipos de incidencia sin épica.</li>
 </ul>
-<h4>Sin Estimación original</h4>
+<h4>Sin Estimación original (desactivado)</h4>
 <p>Texto: «@persona la actividad CDGE-xxx se ha creado sin Estimación original. Por favor, rellénala.»</p>
 <ul class="plain">
 <li>Salta solo en el tipo <b>Actividades</b> cuando el campo <b>Estimación original</b> está vacío.</li>
 <li>Cómo corregirlo: rellena Estimación original en la actividad.</li>
 </ul>
 <div class="note info"><b>Son avisos, no bloqueos.</b> La actividad se crea igualmente. El comentario queda en la incidencia como recordatorio y no se borra al corregirla.</div>
-<h3>Horas: cómo se calculan los totales</h3>
-<p>Las horas se reparten en dos niveles y los totales se calculan solos.</p>
+<h3>Etiqueta automática con el código de la épica</h3>
+<p>Al crear una Actividad dentro de una épica del proyecto (clave <code>CDGE-…</code>), Jira le añade sola la etiqueta con el código de esa épica, por ejemplo <code>CDGE-874</code>.</p>
+<ul class="plain">
+<li>No hace falta añadirla a mano en las actividades nuevas.</li>
+<li>Sirve para filtrar todo lo de una épica: <code>labels = CDGE-874</code>.</li>
+</ul>
+
+<h3>Horas: cómo se anotan y se suman</h3>
+<p>Las horas se anotan en la actividad por perfil y la épica suma las de todas sus actividades.</p>
 <ol class="steps">
-<li><b>Horas por persona.</b> En la Actividad hay un campo de horas por cada persona del equipo. Cada persona anota ahí sus horas.</li>
-<li><b>Total por perfil.</b> Al actualizar la actividad, el flujo suma las horas de las personas de cada perfil en <b>Horas Jefe de proyecto</b>, <b>Horas Consultor</b>, <b>Horas Consultor EB</b> y <b>Horas Analista Programador</b>.</li>
+<li><b>Horas por perfil.</b> En la Actividad se anotan en <b>Horas Jefe de proyecto</b>, <b>Horas Consultor</b>, <b>Horas Consultor EB</b> y <b>Horas Analista Programador</b> (obligatorios al crear), además de <b>Horas planificadas</b>, Horas Ejecutadas y Horas facturadas.</li>
+<li><b>Sin suma por persona.</b> El flujo que sumaba las horas de cada persona en el total de su perfil está desactivado: los totales por perfil se escriben directamente.</li>
 <li><b>Total en la épica.</b> Cuando cambian las horas por perfil, otro flujo busca todas las actividades de la misma épica y recalcula en la épica sus totales de horas.</li>
 </ol>
 <ul class="plain">
-<li>No escribas a mano los totales por perfil: se sobrescriben con la suma de las horas por persona.</li>
-<li>Los totales por perfil siguen siendo obligatorios en la pantalla de crear; se actualizan al guardar cambios.</li>
+<li>Los totales por perfil se escriben a mano y deben estar siempre actualizados.</li>
+<li>Los totales por perfil son obligatorios en la pantalla de crear.</li>
+<li>No se usan campos de horas por persona. El campo «Horas Irina Alecha» que aún aparece en la Actividad es un sobrante y no debe usarse; está pendiente de quitar de la pantalla.</li>
 <li>La pantalla de crear Actividades también exige el campo <b>Horas planificadas</b>.</li>
 <li>El flujo antiguo que escribía en «Horas estimadas» está desactivado porque ese campo ya no existe.</li>
 </ul>
@@ -499,7 +508,7 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <h3>Cómo trabaja Gestión en Jira</h3>
 <div class="note ok"><b>Regla de oro.</b> Gestión crea y planifica; los demás equipos reciben la actividad y la mantienen al día. Nada se da por entregado hasta que está escrito en Jira.</div>
 <ol>
-<li><b>Entregas la actividad completa.</b> Antes de asignarla rellena título <code>AC_ENC&lt;nº&gt; - Descripción</code>, épica, SUBTIPO, ENTREGABLE, Responsable Madrid, Fecha de entrega, Fecha de vencimiento, Estimación original, horas planificadas, persona asignada y descripción con el alcance.</li>
+<li><b>Entregas la actividad completa.</b> Antes de asignarla rellena título <code>AC_ENC&lt;nº&gt; - Descripción</code>, épica, SUBTIPO, descripción general de la actividad, ENTREGABLE, prioridad, Responsable Madrid, Fecha de entrega, fecha de revisión (campo Fecha de vencimiento), Estimación original, horas planificadas y persona asignada.</li>
 <li><b>Avisas con mención.</b> Al asignar, comenta con <code>@persona</code> qué se espera y para cuándo. No uses Teams para esto.</li>
 <li><b>Atiendes los avisos.</b> Si un equipo comenta que falta un campo o devuelve la actividad, corrige y responde en la propia actividad.</li>
 <li><b>Mantienes la épica asignada</b> para que lleguen los avisos automáticos (por ejemplo, al pasar una actividad a DDF/OK Madrid).</li>
@@ -511,8 +520,8 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <p class="intro">Medición y análisis de uso. SUBTIPO: <code>Analítica</code>. Apóyate también en <code>Adopción, Comunicación, CRO y Difusión</code> cuando el análisis sirva a optimización de conversión.</p>
 <div class="note warn"><b>Sin casos aún.</b> No hay actividades de analítica creadas en CDGE (la consulta por subtipo devuelve 0). Este es el uso previsto según el flujo y los campos existentes.</div>
 <ol class="steps">
-<li>Crea la <b>Actividad</b> <code>AC_ENC&lt;nº&gt; - Análisis de …</code> con SUBTIPO <b>Analítica</b>.</li>
-<li>Define el ENTREGABLE (informe, cuadro de mando, recomendaciones) y la Fecha de entrega.</li>
+<li>Recibes la <b>Actividad</b> de Gestión (<code>AC_ENC&lt;nº&gt; - …</code>, SUBTIPO <b>Analítica</b>) ya informada. No la creas tú.</li>
+<li>Lee el ENTREGABLE (informe, cuadro de mando, recomendaciones), la descripción, la prioridad y las fechas. Si falta algo, comenta a Gestión.</li>
 <li>Desglosa el trabajo en <b>subtareas</b> con <code>AN_&lt;nº encargo&gt; - Nombre de la actividad</code>.</li>
 <li>Recorre <span class="st prog">Estrategia</span> (qué se mide) → <span class="st prog">Investigación</span> (obtención y análisis de datos).</li>
 <li>Adjunta el informe o enlaza la fuente en la actividad y pásala a <span class="st done">Cerrado</span>.</li>
@@ -521,12 +530,12 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <h3>Cómo trabaja el equipo de Analítica en Jira</h3>
 <div class="note ok"><b>Regla de oro.</b> Jira es el único sitio donde queda constancia del trabajo: lo que se decide o se entrega por Teams, correo o de palabra no existe hasta que se escribe en la actividad.</div>
 <ol>
-<li><b>Recibes la actividad completa.</b> Gestión la entrega con título <code>AC_ENC&lt;nº&gt; - Descripción</code>, épica, SUBTIPO, ENTREGABLE, Responsable Madrid, fechas, estimación, persona asignada y descripción con el alcance. Si falta algo, no empieces: comenta mencionando (<code>@persona</code>) a quien la creó e indica qué campo falta.</li>
+<li><b>Recibes la actividad completa.</b> Tú no la creas: la crea Gestión y la entrega con título <code>AC_ENC&lt;nº&gt; - Descripción</code>, épica, SUBTIPO, descripción general de la actividad, ENTREGABLE, prioridad, Responsable Madrid, fecha de entrega, fecha de revisión, estimación y persona asignada. Si falta algo, no empieces: comenta mencionando (<code>@persona</code>) a quien la creó e indica qué campo falta.</li>
 <li><b>Transicionas el estado.</b> Quien trabaja la actividad es quien la mueve por su flujo, sin esperar a Gestión, y lo hace cuando el trabajo cambia de fase. Cada pieza de análisis es una subtarea <code>AN_&lt;nº encargo&gt; - Nombre de la actividad</code>; muévelas y, al cerrarlas todas, adjunta el informe y pasa la actividad al estado siguiente.</li>
 <li><b>Asignas a quien corresponda.</b> Al cambiar de estado, reasigna la actividad a la persona que tiene que actuar a continuación. Nunca debe quedar asignada a quien ya terminó su parte.</li>
 <li><b>Comentas con mención.</b> Toda comunicación va en la sección <b>Comentarios</b> de Jira con <code>@nombre</code>, no por Teams: la mención avisa y deja el histórico en la tarea.</li>
 <li><b>Actualizas el estatus en la descripción.</b> Mantén al principio un bloque «Última actualización» con fecha, estado, lo entregado (archivos adjuntos o enlaces), lo pendiente y el siguiente paso.</li>
-<li><b>Registras tus horas</b> en tu campo de horas de la actividad; los totales por perfil se calculan solos.</li>
+<li><b>Registras tus horas</b> en el campo de horas de tu perfil de la actividad (Horas Consultor, Consultor EB, Analista Programador o Jefe de proyecto).</li>
 </ol>
 <div class="note info">Plantilla del bloque «Última actualización» y ejemplo de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
 </section>
@@ -535,7 +544,7 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <p class="intro">Investigación con ciudadanía. SUBTIPO: <code>Investigación con ciudadanía</code>.</p>
 <div class="note warn"><b>Sin casos aún.</b> Tampoco hay actividades de este subtipo; los pasos siguen el flujo configurado.</div>
 <ol class="steps">
-<li>Crea la <b>Actividad</b> con SUBTIPO <b>Investigación con ciudadanía</b> y entregable (informe de hallazgos, síntesis, guion de sesiones).</li>
+<li>Recibes la <b>Actividad</b> de Gestión con SUBTIPO <b>Investigación con ciudadanía</b> y su entregable (informe de hallazgos, síntesis, guion de sesiones) ya informados. No la creas tú.</li>
 <li>Desde la propia actividad pulsa <b>Añadir subtarea</b> (Subtask) por cada pieza de research: guion, sesiones, síntesis, informe.</li>
 <li>Nombra cada subtarea con <code>RS_&lt;nº encargo&gt; - Nombre de la actividad</code>.</li>
 <li>Fase <span class="st prog">Estrategia / encuadre</span>: objetivos, perfil de participantes y método.</li>
@@ -547,12 +556,12 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <h3>Cómo trabaja el equipo de Research en Jira</h3>
 <div class="note ok"><b>Regla de oro.</b> Jira es el único sitio donde queda constancia del trabajo: lo que se decide o se entrega por Teams, correo o de palabra no existe hasta que se escribe en la actividad.</div>
 <ol>
-<li><b>Recibes la actividad completa.</b> Gestión la entrega con título <code>AC_ENC&lt;nº&gt; - Descripción</code>, épica, SUBTIPO, ENTREGABLE, Responsable Madrid, fechas, estimación, persona asignada y descripción con el alcance. Si falta algo, no empieces: comenta mencionando (<code>@persona</code>) a quien la creó e indica qué campo falta.</li>
+<li><b>Recibes la actividad completa.</b> Tú no la creas: la crea Gestión y la entrega con título <code>AC_ENC&lt;nº&gt; - Descripción</code>, épica, SUBTIPO, descripción general de la actividad, ENTREGABLE, prioridad, Responsable Madrid, fecha de entrega, fecha de revisión, estimación y persona asignada. Si falta algo, no empieces: comenta mencionando (<code>@persona</code>) a quien la creó e indica qué campo falta.</li>
 <li><b>Transicionas el estado.</b> Quien trabaja la actividad es quien la mueve por su flujo, sin esperar a Gestión, y lo hace cuando el trabajo cambia de fase. Cada pieza de research es una subtarea <code>RS_&lt;nº encargo&gt; - Nombre de la actividad</code>; muévelas y, al cerrarlas todas, adjunta los hallazgos y pasa la actividad al estado siguiente.</li>
 <li><b>Asignas a quien corresponda.</b> Al cambiar de estado, reasigna la actividad a la persona que tiene que actuar a continuación. Nunca debe quedar asignada a quien ya terminó su parte.</li>
 <li><b>Comentas con mención.</b> Toda comunicación va en la sección <b>Comentarios</b> de Jira con <code>@nombre</code>, no por Teams: la mención avisa y deja el histórico en la tarea.</li>
 <li><b>Actualizas el estatus en la descripción.</b> Mantén al principio un bloque «Última actualización» con fecha, estado, lo entregado (archivos adjuntos o enlaces), lo pendiente y el siguiente paso.</li>
-<li><b>Registras tus horas</b> en tu campo de horas de la actividad; los totales por perfil se calculan solos.</li>
+<li><b>Registras tus horas</b> en el campo de horas de tu perfil de la actividad (Horas Consultor, Consultor EB, Analista Programador o Jefe de proyecto).</li>
 </ol>
 <div class="note info">Plantilla del bloque «Última actualización» y ejemplo de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
 </section>
@@ -565,7 +574,7 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <div class="card"><h4>Soporte a construcción</h4><p>Acompañamiento mientras el equipo externo desarrolla. Ejemplo real: «AC_ENC046_ Empleo_Sesiones, diseño final, especificaciones técnicas de servicios, acompañamiento desarrollo».</p></div>
 </div>
 <ol class="steps">
-<li>Crea la <b>Actividad</b> con el subtipo y descríbela en el título: sesiones, diseño final, especificaciones, acompañamiento.</li>
+<li>Recibes la <b>Actividad</b> de Gestión con el subtipo y el entregable ya informados (sesiones, diseño final, especificaciones, acompañamiento). No la creas tú.</li>
 <li>Avanza por <span class="st prog">Diseño</span>, pasa por <span class="st prog">UX Writing</span> para revisar los textos (<i>Enviar a Writing</i>) y, al entregar especificaciones, por <span class="st prog">DDF/OK Madrid</span> hasta tener el visto bueno.</li>
 <li>Con el equipo externo desarrollando: <span class="st prog">Desarrollo NTT</span>. Resuelve dudas en la propia actividad.</li>
 <li>Cuando el diseño esté implementado, crea la <b>Test Execution</b> de diseño: <code>TE_&lt;épica&gt; - DESK - DIS - …</code> (y variantes IOS/Android APP).</li>
@@ -575,12 +584,12 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <h3>Cómo trabaja el equipo de Diseño en Jira</h3>
 <div class="note ok"><b>Regla de oro.</b> Jira es el único sitio donde queda constancia del trabajo: lo que se decide o se entrega por Teams, correo o de palabra no existe hasta que se escribe en la actividad.</div>
 <ol>
-<li><b>Recibes la actividad completa.</b> Gestión la entrega con título <code>AC_ENC&lt;nº&gt; - Descripción</code>, épica, SUBTIPO, ENTREGABLE, Responsable Madrid, fechas, estimación, persona asignada y descripción con el alcance. Si falta algo, no empieces: comenta mencionando (<code>@persona</code>) a quien la creó e indica qué campo falta.</li>
+<li><b>Recibes la actividad completa.</b> Tú no la creas: la crea Gestión y la entrega con título <code>AC_ENC&lt;nº&gt; - Descripción</code>, épica, SUBTIPO, descripción general de la actividad, ENTREGABLE, prioridad, Responsable Madrid, fecha de entrega, fecha de revisión, estimación y persona asignada. Si falta algo, no empieces: comenta mencionando (<code>@persona</code>) a quien la creó e indica qué campo falta.</li>
 <li><b>Transicionas el estado.</b> Quien trabaja la actividad es quien la mueve por su flujo, sin esperar a Gestión, y lo hace cuando el trabajo cambia de fase. Avanza por Diseño, UX Writing (textos) y DDF/OK Madrid; adjunta o enlaza los diseños (Figma, SharePoint…) y reasigna al responsable de enviarlos al cliente.</li>
 <li><b>Asignas a quien corresponda.</b> Al cambiar de estado, reasigna la actividad a la persona que tiene que actuar a continuación. Nunca debe quedar asignada a quien ya terminó su parte.</li>
 <li><b>Comentas con mención.</b> Toda comunicación va en la sección <b>Comentarios</b> de Jira con <code>@nombre</code>, no por Teams: la mención avisa y deja el histórico en la tarea.</li>
 <li><b>Actualizas el estatus en la descripción.</b> Mantén al principio un bloque «Última actualización» con fecha, estado, lo entregado (archivos adjuntos o enlaces), lo pendiente y el siguiente paso.</li>
-<li><b>Registras tus horas</b> en tu campo de horas de la actividad; los totales por perfil se calculan solos.</li>
+<li><b>Registras tus horas</b> en el campo de horas de tu perfil de la actividad (Horas Consultor, Consultor EB, Analista Programador o Jefe de proyecto).</li>
 </ol>
 <div class="note info">Plantilla del bloque «Última actualización» y ejemplo de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
 </section>
@@ -605,12 +614,12 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <h3>Cómo trabaja el equipo de UX Writing en Jira</h3>
 <div class="note ok"><b>Regla de oro.</b> Jira es el único sitio donde queda constancia del trabajo: lo que se decide o se entrega por Teams, correo o de palabra no existe hasta que se escribe en la actividad.</div>
 <ol>
-<li><b>Recibes la actividad completa.</b> Gestión la entrega con título <code>AC_ENC&lt;nº&gt; - Descripción</code>, épica, SUBTIPO, ENTREGABLE, Responsable Madrid, fechas, estimación, persona asignada y descripción con el alcance. Si falta algo, no empieces: comenta mencionando (<code>@persona</code>) a quien la creó e indica qué campo falta.</li>
+<li><b>Recibes la actividad completa.</b> Tú no la creas: la crea Gestión y la entrega con título <code>AC_ENC&lt;nº&gt; - Descripción</code>, épica, SUBTIPO, descripción general de la actividad, ENTREGABLE, prioridad, Responsable Madrid, fecha de entrega, fecha de revisión, estimación y persona asignada. Si falta algo, no empieces: comenta mencionando (<code>@persona</code>) a quien la creó e indica qué campo falta.</li>
 <li><b>Transicionas el estado.</b> Quien trabaja la actividad es quien la mueve por su flujo, sin esperar a Gestión, y lo hace cuando el trabajo cambia de fase. Pasa la actividad de Diseño a UX Writing con <i>Enviar a Writing</i>; al terminar, usa <i>Enviar a Cliente</i> (DDF/OK Madrid) o <i>Devolver a Diseño</i> si hay que rehacer algo.</li>
 <li><b>Asignas a quien corresponda.</b> Al cambiar de estado, reasigna la actividad a la persona que tiene que actuar a continuación. Nunca debe quedar asignada a quien ya terminó su parte.</li>
 <li><b>Comentas con mención.</b> Toda comunicación va en la sección <b>Comentarios</b> de Jira con <code>@nombre</code>, no por Teams: la mención avisa y deja el histórico en la tarea.</li>
 <li><b>Actualizas el estatus en la descripción.</b> Mantén al principio un bloque «Última actualización» con fecha, estado, lo entregado (archivos adjuntos o enlaces), lo pendiente y el siguiente paso.</li>
-<li><b>Registras tus horas</b> en tu campo de horas de la actividad; los totales por perfil se calculan solos.</li>
+<li><b>Registras tus horas</b> en el campo de horas de tu perfil de la actividad (Horas Consultor, Consultor EB, Analista Programador o Jefe de proyecto).</li>
 </ol>
 <div class="note info">Plantilla del bloque «Última actualización» y ejemplo de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
 </section>
@@ -680,12 +689,12 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <h3>Cómo trabaja el equipo de QA en Jira</h3>
 <div class="note ok"><b>Regla de oro.</b> Jira es el único sitio donde queda constancia del trabajo: lo que se decide o se entrega por Teams, correo o de palabra no existe hasta que se escribe en la actividad.</div>
 <ol>
-<li><b>Recibes la actividad completa.</b> Gestión la entrega con título <code>AC_ENC&lt;nº&gt; - Descripción</code>, épica, SUBTIPO, ENTREGABLE, Responsable Madrid, fechas, estimación, persona asignada y descripción con el alcance. Si falta algo, no empieces: comenta mencionando (<code>@persona</code>) a quien la creó e indica qué campo falta.</li>
+<li><b>Recibes la actividad completa.</b> Tú no la creas: la crea Gestión y la entrega con título <code>AC_ENC&lt;nº&gt; - Descripción</code>, épica, SUBTIPO, descripción general de la actividad, ENTREGABLE, prioridad, Responsable Madrid, fecha de entrega, fecha de revisión, estimación y persona asignada. Si falta algo, no empieces: comenta mencionando (<code>@persona</code>) a quien la creó e indica qué campo falta.</li>
 <li><b>Transicionas el estado.</b> Quien trabaja la actividad es quien la mueve por su flujo, sin esperar a Gestión, y lo hace cuando el trabajo cambia de fase. Pasa por Ready for VAL, Validación en VAL, Revisión A11y, En corrección y RETEST; enlaza el Test Plan, las ejecuciones (dentro del plan) y los errores, y reasigna a quien deba corregir.</li>
 <li><b>Asignas a quien corresponda.</b> Al cambiar de estado, reasigna la actividad a la persona que tiene que actuar a continuación. Nunca debe quedar asignada a quien ya terminó su parte.</li>
 <li><b>Comentas con mención.</b> Toda comunicación va en la sección <b>Comentarios</b> de Jira con <code>@nombre</code>, no por Teams: la mención avisa y deja el histórico en la tarea.</li>
 <li><b>Actualizas el estatus en la descripción.</b> Mantén al principio un bloque «Última actualización» con fecha, estado, lo entregado (archivos adjuntos o enlaces), lo pendiente y el siguiente paso.</li>
-<li><b>Registras tus horas</b> en tu campo de horas de la actividad; los totales por perfil se calculan solos.</li>
+<li><b>Registras tus horas</b> en el campo de horas de tu perfil de la actividad (Horas Consultor, Consultor EB, Analista Programador o Jefe de proyecto).</li>
 </ol>
 <div class="note info">Plantilla del bloque «Última actualización» y ejemplo de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
 </section>
