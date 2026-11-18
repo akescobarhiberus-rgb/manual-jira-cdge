@@ -305,7 +305,7 @@ nav.toc a{border:1px solid var(--line);border-radius:99px;padding:3px 10px;backg
 <ol class="steps">
 <li>Abre la actividad que NTT ha devuelto.</li>
 <li>En <b>Detalles</b>, cambia <b>Devuelto por NTT</b> a <code>SI</code>.</li>
-<li>Jira añade un comentario automático en la actividad: «@persona ha indicado que la tarea ha sido devuelta por NTT el día dd/mm/aaaa». La persona es quien cambió el campo y la fecha es la del cambio.</li>
+<li>Jira añade dos comentarios automáticos. En la <b>actividad</b>: «@persona ha indicado que la tarea ha sido devuelta por NTT el día dd/mm/aaaa». En la <b>épica</b>: «@persona ha indicado en la actividad CDGE-xxx (enlace) que ha sido devuelta por NTT el día dd/mm/aaaa y se requiere revisión», con mención al <b>owner de la épica</b> (su persona asignada) para que lo controle. La persona es quien cambió el campo y la fecha es la del cambio.</li>
 <li>Gestiona la devolución con el flujo normal de la actividad (por ejemplo <span class="st prog">En corrección</span>).</li>
 </ol>
 <div class="note info"><b>Qué pasa al cambiar el valor.</b> Solo <code>SI</code> genera comentario. Si alguien lo pone en <code>NO</code>, no ocurre nada. Si se cambia a <code>NO</code> y luego otra vez a <code>SI</code>, se añade un comentario nuevo cada vez, lo que permite ver cuántas veces se ha devuelto.</div>
@@ -316,7 +316,7 @@ nav.toc a{border:1px solid var(--line);border-radius:99px;padding:3px 10px;backg
 <tr><td>Actividades devueltas por NTT</td><td><div class="pat"><code>project = CDGE AND issuetype = Actividades AND "Devuelto por NTT" = SI</code><button class="cp" data-t='project = CDGE AND issuetype = Actividades AND "Devuelto por NTT" = SI'>Copiar</button></div></td></tr>
 <tr><td>Devueltas y aún sin cerrar</td><td><div class="pat"><code>project = CDGE AND issuetype = Actividades AND "Devuelto por NTT" = SI AND statusCategory != Done</code><button class="cp" data-t='project = CDGE AND issuetype = Actividades AND "Devuelto por NTT" = SI AND statusCategory != Done'>Copiar</button></div></td></tr>
 </tbody></table></div>
-<div class="note ok"><b>Flujo probado.</b> El flujo «Actividad devuelta por NTT: comentario automático» está activo y funciona correctamente con actividades reales.</div>
+<div class="note ok"><b>Flujo actualizado (18/11/2026).</b> El flujo «Actividad devuelta por NTT: comentario automático» está activo y ahora comenta en la actividad y también en la épica. Pendiente de probar con una actividad real.</div>
 <h3>Aviso automático al pasar a «DDF/OK Madrid»</h3>
 <p>Cuando una actividad llega al estado <span class="st prog">DDF/OK Madrid</span>, Jira avisa a quien debe enviarla al cliente. El aviso no se escribe en la actividad, sino en la <b>épica</b> a la que pertenece.</p>
 <h4>Qué ocurre</h4>
@@ -517,7 +517,7 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <tr><td><b>Aviso: actividad creada sin épica asociada</b></td><td>Al crear una incidencia</td><td>Si no tiene épica en <b>Principal</b>, comenta mencionando a quien la creó.</td><td><span class="st done">Activo</span></td></tr>
 <tr><td><b>Aviso: actividad creada sin Estimación original</b></td><td>Al crear una Actividad</td><td>Si la Estimación original está vacía, comenta mencionando a quien la creó.</td><td><span class="st todo">Desactivado</span></td></tr>
 <tr><td><b>Actividad creada: etiqueta con el código de la épica</b></td><td>Al crear una Actividad</td><td>Si tiene épica del proyecto (clave CDGE-…), le añade la etiqueta con el código de esa épica.</td><td><span class="st done">Activo</span></td></tr>
-<tr><td><b>Actividad devuelta por NTT: comentario automático</b></td><td>Al poner «Devuelto por NTT» en SI</td><td>Comenta en la actividad quién lo indicó y la fecha.</td><td><span class="st done">Activo</span></td></tr>
+<tr><td><b>Actividad devuelta por NTT: comentario automático</b></td><td>Al poner «Devuelto por NTT» en SI</td><td>Comenta en la actividad quién lo indicó y la fecha, y además comenta en la épica (con enlace a la actividad) mencionando a su owner.</td><td><span class="st done">Activo</span></td></tr>
 <tr><td><b>Actividad en DDF/OK Madrid: avisar al Owner de la épica</b></td><td>Al pasar a «DDF/OK Madrid»</td><td>Comenta en la épica mencionando a su persona asignada.</td><td><span class="st done">Activo</span></td></tr>
 <tr><td><b>Horas por persona: sumar en Horas Jefe de proyecto / Consultor / Consultor EB / Analista Programador</b></td><td>Al actualizar una Actividad</td><td>Sumaba las horas de cada persona en el total de su perfil.</td><td><span class="st todo">Desactivado</span></td></tr>
 <tr><td><b>Epic: sumar horas estimadas de sus actividades</b></td><td>Al cambiar las horas por perfil de una actividad</td><td>Recalcula en la épica los totales de horas a partir de todas sus actividades.</td><td><span class="st done">Activo</span></td></tr>
