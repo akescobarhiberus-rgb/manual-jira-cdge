@@ -100,6 +100,7 @@ nav.toc a{border:1px solid var(--line);border-radius:99px;padding:3px 10px;backg
 <a href="#actividad">Actividades</a>
 <a href="#subtareas">Subtareas</a>
 <a href="#equipos">Trabajo de los equipos</a>
+<a href="#semaforo">Semáforo de la actividad</a>
 <a href="#automatizaciones">Automatizaciones</a>
 <div class="grp">Por subtipo</div>
 <a href="#gestion">Gestión</a>
@@ -430,7 +431,7 @@ nav.toc a{border:1px solid var(--line);border-radius:99px;padding:3px 10px;backg
 <div class="note info" style="white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace;font-size:13px">Diseño:
 18/11/2026 · Hecho: pantallas de escritorio y móvil. Estado: pendiente de revisión de textos. Pendiente: pantalla de confirmación.</div>
 <h4>Tipos de panel</h4>
-<p>Cada panel tiene un selector de tipo. Se usan así:</p>
+<p>Cada panel tiene un selector de tipo y funciona como un semáforo. Guía completa con ejemplos: <a href="#semaforo">Semáforo de la actividad</a>. Resumen:</p>
 <div class="tw"><table>
 <thead><tr><th>Tipo</th><th>Cuándo se usa</th></tr></thead>
 <tbody>
@@ -457,6 +458,54 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 </table></div>
 
 <div class="note warn"><b>Pendiente de acordar.</b> Qué estados puede mover cada equipo y a quién se reasigna en cada cambio de estado. Si se quiere, se puede automatizar el cambio de persona asignada en algunas transiciones.</div>
+</section>
+
+<section id="semaforo">
+<h2>Semáforo de la actividad</h2>
+<p class="intro">La descripción de cada actividad trae un panel por equipo. El color del panel es un semáforo: indica en qué punto está esa parte del trabajo. Quien abre la actividad (el owner, Gestión u otro equipo) ve de un vistazo cómo va todo, sin leer comentario a comentario.</p>
+<h3>Qué significa cada color</h3>
+<div class="tw"><table>
+<thead><tr><th>Color (tipo de panel)</th><th>Significado</th><th>Ejemplo</th></tr></thead>
+<tbody>
+<tr><td><b>Azul</b> (Información)</td><td>Pendiente o en curso. Es el color por defecto.</td><td>«[Información pendiente]» o «18/11 · Diseñando pantallas móviles»</td></tr>
+<tr><td><b>Verde</b> (Correcto)</td><td>Terminado y validado, ya con el visto bueno del cliente o de la revisión que toque.</td><td>«18/11 · Informe de research aprobado por el cliente»</td></tr>
+<tr><td><b>Amarillo</b> (Advertencia)</td><td>Hay algo pendiente de revisar que puede acabar bloqueando.</td><td>«18/11 · Se requieren reajustes; en espera de revisión»</td></tr>
+<tr><td><b>Rojo</b> (Error)</td><td>Bloqueado, rechazado o descartado.</td><td>«18/11 · Diseño rechazado por Madrid»</td></tr>
+<tr><td><b>Morado</b> (Nota)</td><td>Solo para el entregable: archivos y enlaces.</td><td>Enlace al Figma, a SharePoint o archivo adjunto</td></tr>
+</tbody></table></div>
+<h3>Qué panel es de quién</h3>
+<div class="tw"><table>
+<thead><tr><th>Panel</th><th>Lo mantiene</th></tr></thead>
+<tbody>
+<tr><td>Descripción general de la actividad</td><td>Gestión (qué hay que hacer y para qué)</td></tr>
+<tr><td>Estrategia</td><td>Quien lleve la estrategia de la actividad (consúltalo con Gestión)</td></tr>
+<tr><td>Research</td><td>Equipo de Research</td></tr>
+<tr><td>Analista</td><td>Equipo de Analítica</td></tr>
+<tr><td>Diseño</td><td>Equipo de Diseño (y UX Writing)</td></tr>
+<tr><td>A11y</td><td>Revisión de accesibilidad</td></tr>
+<tr><td>Revisión Madrid</td><td>Gestión</td></tr>
+<tr><td>Validación QA</td><td>Equipo de QA</td></tr>
+<tr><td>Entregable</td><td>Quien entrega (siempre tipo Nota)</td></tr>
+</tbody></table></div>
+<h3>Cómo se actualiza un panel</h3>
+<ol class="steps">
+<li>Abre la actividad y pulsa en la descripción para editarla.</li>
+<li>Busca el panel de tu equipo.</li>
+<li>Sustituye «[Información pendiente]» por tu actualización: la fecha, qué has hecho, el estado y qué queda pendiente.</li>
+<li>Con el cursor dentro del panel aparece una barra pequeña. Pulsa el selector de tipo (el que dice «Información») y elige el color que corresponda.</li>
+<li>Guarda la descripción.</li>
+</ol>
+<h3>Reglas</h3>
+<ul>
+<li><b>Cada equipo toca solo su panel.</b> Si tu equipo no participa en la actividad, no cambies nada.</li>
+<li><b>Una actualización nueva sustituye a la anterior.</b> El panel debe mostrar siempre lo último; el historial queda en Jira.</li>
+<li><b>Escribe siempre la fecha</b> de la actualización.</li>
+<li><b>Entregable es solo Nota.</b> Ahí van los archivos y enlaces; no se usa para colores de estado.</li>
+<li><b>Un rojo que detiene la actividad va con el estado Bloqueado.</b> El panel explica el motivo y el estado hace visible el bloqueo en el tablero.</li>
+<li><b>El color no sustituye a los comentarios.</b> Para avisar a alguien, comenta con mención y asigna la actividad.</li>
+</ul>
+<div class="note warn"><b>Límite.</b> El color de un panel no se puede filtrar ni sacar en informes: Jira no lo busca con JQL. Sirve para leer cada actividad. Para ver bloqueos en el tablero se usa el estado Bloqueado.</div>
+<div class="note info"><b>Plantilla corregida.</b> En la plantilla de la descripción de Actividades se han quitado dos paneles «Estrategia» duplicados y el panel Entregable pasa a tipo Nota. Solo afecta a las actividades nuevas; en las ya creadas puedes borrar a mano los paneles duplicados.</div>
 </section>
 
 <section id="automatizaciones">
@@ -537,6 +586,16 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <li><b>Atiendes los avisos.</b> Si un equipo comenta que falta un campo o devuelve la actividad, corrige y responde en la propia actividad.</li>
 <li><b>Mantienes la épica asignada</b> para que lleguen los avisos automáticos (por ejemplo, al pasar una actividad a DDF/OK Madrid).</li>
 </ol>
+<h4>Qué hacer en cada caso: semáforo de tus paneles</h4>
+<p>Gestión mantiene «Descripción general de la actividad» y «Revisión Madrid». Guía completa: <a href="#semaforo">Semáforo de la actividad</a>.</p>
+<div class="tw"><table>
+<thead><tr><th>Situación</th><th>Color del panel</th><th>Ejemplo de lo que escribes</th><th>Qué más haces</th></tr></thead>
+<tbody>
+<tr><td>Actividad preparada para asignar</td><td><b>Azul</b> (Información)</td><td>«Descripción general»: qué hay que hacer y para qué.</td><td>Revisa que todos los Detalles clave estén informados y asigna.</td></tr>
+<tr><td>Madrid acepta el trabajo</td><td><b>Verde</b> (Correcto)</td><td>«Revisión Madrid»: 18/11 · Aceptado por Madrid.</td><td>Transiciona la actividad al estado siguiente.</td></tr>
+<tr><td>Pendiente de la revisión de Madrid</td><td><b>Amarillo</b> (Advertencia)</td><td>«Revisión Madrid»: 18/11 · Enviado a Madrid; a la espera de respuesta.</td><td>Haz seguimiento y avisa con mención si pasa la fecha de validación.</td></tr>
+<tr><td>Madrid no acepta o se descarta</td><td><b>Rojo</b> (Error)</td><td>«Revisión Madrid»: 18/11 · No aceptado: motivo y cambios pedidos.</td><td>Marca «Devuelto por NTT» si corresponde, comenta con mención y reasigna al equipo.</td></tr>
+</tbody></table></div>
 <div class="note info">Qué hace cada equipo con la actividad que recibe: <a href="#equipos">Trabajo de los equipos</a>.</div>
 </section>
 <section id="analitica">
@@ -569,7 +628,17 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <li><b>Investigación → DDF/OK Madrid:</b> el informe está listo. Adjúntalo en el panel Entregable y asigna a Gestión para que lo envíe al cliente.</li>
 <li><b>Cualquier estado → Bloqueado:</b> falta un dato o un acceso. Comenta el motivo con mención y asigna a quien pueda resolverlo.</li>
 </ul>
-<div class="note info">Paneles de la descripción, tipos de panel y ejemplo de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
+<h4>Qué hacer en cada caso: semáforo del panel «Analista»</h4>
+<p>Tu panel en la descripción es «Analista». Cuando cambies el color, escribe la actualización con su fecha. Guía completa: <a href="#semaforo">Semáforo de la actividad</a>.</p>
+<div class="tw"><table>
+<thead><tr><th>Situación</th><th>Color del panel</th><th>Ejemplo de lo que escribes</th><th>Qué más haces</th></tr></thead>
+<tbody>
+<tr><td>Estás trabajando en ello</td><td><b>Azul</b> (Información)</td><td>18/11 · Extrayendo datos de uso de octubre.</td><td>Transiciona si cambia la fase y asigna a quien toque.</td></tr>
+<tr><td>Terminado y validado</td><td><b>Verde</b> (Correcto)</td><td>18/11 · Informe entregado y validado con el cliente.</td><td>Adjunta el resultado en el panel Entregable, transiciona y asigna al siguiente.</td></tr>
+<tr><td>Algo pendiente que podría bloquear</td><td><b>Amarillo</b> (Advertencia)</td><td>18/11 · Falta confirmar el periodo de análisis con Madrid.</td><td>Comenta mencionando a quien puede resolverlo.</td></tr>
+<tr><td>Bloqueado, rechazado o descartado</td><td><b>Rojo</b> (Error)</td><td>18/11 · Sin acceso a los datos. Actividad bloqueada.</td><td>Si la actividad se detiene, pásala a Bloqueado, comenta con mención y asigna a Gestión.</td></tr>
+</tbody></table></div>
+<div class="note info">Guía completa del <a href="#semaforo">semáforo de la actividad</a>, los paneles de la descripción y ejemplos de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
 </section>
 <section id="research">
 <h2>Research</h2>
@@ -603,7 +672,17 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <li><b>Investigación → DDF/OK Madrid:</b> los hallazgos están listos. Adjunta el informe en el panel Entregable y asigna a Gestión para que lo envíe al cliente.</li>
 <li><b>Cualquier estado → Bloqueado:</b> no hay participantes o acceso. Comenta el motivo con mención y asigna a quien pueda resolverlo.</li>
 </ul>
-<div class="note info">Paneles de la descripción, tipos de panel y ejemplo de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
+<h4>Qué hacer en cada caso: semáforo del panel «Research»</h4>
+<p>Tu panel en la descripción es «Research». Cuando cambies el color, escribe la actualización con su fecha. Guía completa: <a href="#semaforo">Semáforo de la actividad</a>.</p>
+<div class="tw"><table>
+<thead><tr><th>Situación</th><th>Color del panel</th><th>Ejemplo de lo que escribes</th><th>Qué más haces</th></tr></thead>
+<tbody>
+<tr><td>Estás trabajando en ello</td><td><b>Azul</b> (Información)</td><td>18/11 · Sesiones con ciudadanía en curso (3 de 8).</td><td>Transiciona si cambia la fase y asigna a quien toque.</td></tr>
+<tr><td>Terminado y validado</td><td><b>Verde</b> (Correcto)</td><td>18/11 · Informe de hallazgos aprobado por el cliente.</td><td>Adjunta el resultado en el panel Entregable, transiciona y asigna al siguiente.</td></tr>
+<tr><td>Algo pendiente que podría bloquear</td><td><b>Amarillo</b> (Advertencia)</td><td>18/11 · Faltan participantes para completar las sesiones.</td><td>Comenta mencionando a quien puede resolverlo.</td></tr>
+<tr><td>Bloqueado, rechazado o descartado</td><td><b>Rojo</b> (Error)</td><td>18/11 · No se consigue reclutar participantes. Actividad bloqueada.</td><td>Si la actividad se detiene, pásala a Bloqueado, comenta con mención y asigna a Gestión.</td></tr>
+</tbody></table></div>
+<div class="note info">Guía completa del <a href="#semaforo">semáforo de la actividad</a>, los paneles de la descripción y ejemplos de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
 </section>
 <section id="diseno">
 <h2>Diseño</h2>
@@ -661,7 +740,17 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <li><b>Revisión A11y → Diseño:</b> A11y la devuelve con comentarios. Aplica los cambios, enlaza el Figma actualizado en el panel Entregable y vuelve a enviarla a Revisión A11y.</li>
 <li><b>Cualquier estado → Bloqueado:</b> falta información o una decisión. Comenta el motivo con mención y asigna a quien pueda resolverlo.</li>
 </ul>
-<div class="note info">Paneles de la descripción, tipos de panel y ejemplo de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
+<h4>Qué hacer en cada caso: semáforo del panel «Diseño»</h4>
+<p>Tu panel en la descripción es «Diseño». Cuando cambies el color, escribe la actualización con su fecha. Guía completa: <a href="#semaforo">Semáforo de la actividad</a>.</p>
+<div class="tw"><table>
+<thead><tr><th>Situación</th><th>Color del panel</th><th>Ejemplo de lo que escribes</th><th>Qué más haces</th></tr></thead>
+<tbody>
+<tr><td>Estás trabajando en ello</td><td><b>Azul</b> (Información)</td><td>18/11 · Diseñando pantallas móviles.</td><td>Transiciona si cambia la fase y asigna a quien toque.</td></tr>
+<tr><td>Terminado y validado</td><td><b>Verde</b> (Correcto)</td><td>18/11 · Diseño aceptado por el cliente. Figma en el panel Entregable.</td><td>Adjunta el resultado en el panel Entregable, transiciona y asigna al siguiente.</td></tr>
+<tr><td>Algo pendiente que podría bloquear</td><td><b>Amarillo</b> (Advertencia)</td><td>18/11 · Se requieren reajustes; en espera de revisión.</td><td>Comenta mencionando a quien puede resolverlo.</td></tr>
+<tr><td>Bloqueado, rechazado o descartado</td><td><b>Rojo</b> (Error)</td><td>18/11 · Diseño rechazado por Madrid. Pendiente de rehacer.</td><td>Si la actividad se detiene, pásala a Bloqueado, comenta con mención y asigna a Gestión.</td></tr>
+</tbody></table></div>
+<div class="note info">Guía completa del <a href="#semaforo">semáforo de la actividad</a>, los paneles de la descripción y ejemplos de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
 </section>
 <section id="writing">
 <h2>UX Writing</h2>
@@ -697,7 +786,17 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <li><b>UX Writing → Revisión A11y:</b> cambios hechos. Asigna a la persona de accesibilidad y menciónala en un comentario.</li>
 <li><b>Cualquier estado → Bloqueado:</b> faltan textos o una decisión. Comenta el motivo con mención y asigna a quien pueda resolverlo.</li>
 </ul>
-<div class="note info">Paneles de la descripción, tipos de panel y ejemplo de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
+<h4>Qué hacer en cada caso: semáforo del panel «Diseño»</h4>
+<p>UX Writing no tiene un panel propio: usa el panel «Diseño» y escribe tu actualización indicando que es de writing. Cuando cambies el color, escribe la actualización con su fecha. Guía completa: <a href="#semaforo">Semáforo de la actividad</a>.</p>
+<div class="tw"><table>
+<thead><tr><th>Situación</th><th>Color del panel</th><th>Ejemplo de lo que escribes</th><th>Qué más haces</th></tr></thead>
+<tbody>
+<tr><td>Estás trabajando en ello</td><td><b>Azul</b> (Información)</td><td>18/11 · Writing: revisando los textos de las pantallas.</td><td>Transiciona si cambia la fase y asigna a quien toque.</td></tr>
+<tr><td>Terminado y validado</td><td><b>Verde</b> (Correcto)</td><td>18/11 · Writing: textos cerrados y entregados a A11y.</td><td>Adjunta el resultado en el panel Entregable, transiciona y asigna al siguiente.</td></tr>
+<tr><td>Algo pendiente que podría bloquear</td><td><b>Amarillo</b> (Advertencia)</td><td>18/11 · Writing: faltan textos por confirmar con Madrid.</td><td>Comenta mencionando a quien puede resolverlo.</td></tr>
+<tr><td>Bloqueado, rechazado o descartado</td><td><b>Rojo</b> (Error)</td><td>18/11 · Writing: textos rechazados. Pendiente de rehacer.</td><td>Si la actividad se detiene, pásala a Bloqueado, comenta con mención y asigna a Gestión.</td></tr>
+</tbody></table></div>
+<div class="note info">Guía completa del <a href="#semaforo">semáforo de la actividad</a>, los paneles de la descripción y ejemplos de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
 </section>
 
 <section id="pruebas">
@@ -782,7 +881,17 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <li><b>En corrección → RETEST:</b> corregido. Asigna a QA para que vuelva a probar.</li>
 <li><b>Cualquier estado → Bloqueado:</b> no se puede probar. Comenta el motivo con mención y asigna a quien pueda resolverlo.</li>
 </ul>
-<div class="note info">Paneles de la descripción, tipos de panel y ejemplo de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
+<h4>Qué hacer en cada caso: semáforo del panel «Validación QA»</h4>
+<p>Tus paneles en la descripción son «Validación QA» y, para accesibilidad, «A11y». Cuando cambies el color, escribe la actualización con su fecha. Guía completa: <a href="#semaforo">Semáforo de la actividad</a>.</p>
+<div class="tw"><table>
+<thead><tr><th>Situación</th><th>Color del panel</th><th>Ejemplo de lo que escribes</th><th>Qué más haces</th></tr></thead>
+<tbody>
+<tr><td>Estás trabajando en ello</td><td><b>Azul</b> (Información)</td><td>18/11 · Ejecutando las pruebas funcionales (12 de 30).</td><td>Transiciona si cambia la fase y asigna a quien toque.</td></tr>
+<tr><td>Terminado y validado</td><td><b>Verde</b> (Correcto)</td><td>18/11 · Pruebas completadas sin errores abiertos.</td><td>Adjunta el resultado en el panel Entregable, transiciona y asigna al siguiente.</td></tr>
+<tr><td>Algo pendiente que podría bloquear</td><td><b>Amarillo</b> (Advertencia)</td><td>18/11 · Hay errores abiertos pendientes de corregir por NTT.</td><td>Comenta mencionando a quien puede resolverlo.</td></tr>
+<tr><td>Bloqueado, rechazado o descartado</td><td><b>Rojo</b> (Error)</td><td>18/11 · Bloqueado: el entorno de validación no está disponible.</td><td>Si la actividad se detiene, pásala a Bloqueado, comenta con mención y asigna a Gestión.</td></tr>
+</tbody></table></div>
+<div class="note info">Guía completa del <a href="#semaforo">semáforo de la actividad</a>, los paneles de la descripción y ejemplos de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
 </section>
 <section id="evolutivos-ntt">
 <h2>Evolutivos de NTT</h2>
