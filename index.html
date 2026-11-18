@@ -106,6 +106,7 @@ nav.toc a{border:1px solid var(--line);border-radius:99px;padding:3px 10px;backg
 <a href="#analitica">Analítica</a>
 <a href="#research">Research</a>
 <a href="#diseno">Diseño</a>
+<a href="#writing">UX Writing</a>
 <a href="#pruebas">Pruebas</a>
 <div class="grp">Seguimiento</div>
 <a href="#evolutivos-ntt">Evolutivos de NTT</a>
@@ -583,6 +584,37 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 </ol>
 <div class="note info">Plantilla del bloque «Última actualización» y ejemplo de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
 </section>
+<section id="writing">
+<h2>UX Writing</h2>
+<p class="intro">Revisión y redacción de los textos de los diseños (etiquetas, mensajes, microcopy) antes de enviarlos a Madrid. UX Writing es un estado del flujo de Actividades, entre Diseño y DDF/OK Madrid. El equipo de writing forma parte de Diseño (grupo CDGE-Diseno); no hay grupo aparte.</p>
+<h3>Cómo se trabaja</h3>
+<ol>
+<li><b>Diseño entrega.</b> Cuando el diseño está listo, Diseño pasa la actividad a <span class="st prog">UX Writing</span> con la transición <b>Enviar a Writing</b>, la reasigna a la persona de writing y la menciona en un comentario.</li>
+<li><b>Writing revisa los textos.</b> Redacta o corrige los textos y deja los textos finales como adjunto o enlace en el bloque «Última actualización» de la descripción.</li>
+<li><b>Si hay que rehacer algo,</b> usa <b>Devolver a Diseño</b> y explica en un comentario con mención qué hay que cambiar.</li>
+<li><b>Si está correcto,</b> usa <b>Enviar a Cliente</b>: la actividad pasa a <span class="st prog">DDF/OK Madrid</span>, se reasigna a quien debe enviarla al cliente y el aviso automático lo anuncia en la épica.</li>
+</ol>
+<div class="tw"><table>
+<thead><tr><th>Transición</th><th>De</th><th>A</th></tr></thead>
+<tbody>
+<tr><td><b>Enviar a Writing</b></td><td>Diseño</td><td>UX Writing</td></tr>
+<tr><td><b>Devolver a Diseño</b></td><td>UX Writing</td><td>Diseño</td></tr>
+<tr><td><b>Enviar a Cliente</b></td><td>UX Writing</td><td>DDF/OK Madrid</td></tr>
+</tbody></table></div>
+<p>En el tablero, UX Writing está en la columna <b>En curso</b>, junto a Estrategia, Investigación y Diseño. Si una actividad se detiene, se pasa a Bloqueado como en cualquier otro estado.</p>
+<h3>Cómo trabaja el equipo de UX Writing en Jira</h3>
+<div class="note ok"><b>Regla de oro.</b> Jira es el único sitio donde queda constancia del trabajo: lo que se decide o se entrega por Teams, correo o de palabra no existe hasta que se escribe en la actividad.</div>
+<ol>
+<li><b>Recibes la actividad completa.</b> Gestión la entrega con título <code>AC_ENC&lt;nº&gt; - Descripción</code>, épica, SUBTIPO, ENTREGABLE, Responsable Madrid, fechas, estimación, persona asignada y descripción con el alcance. Si falta algo, no empieces: comenta mencionando (<code>@persona</code>) a quien la creó e indica qué campo falta.</li>
+<li><b>Transicionas el estado.</b> Quien trabaja la actividad es quien la mueve por su flujo, sin esperar a Gestión, y lo hace cuando el trabajo cambia de fase. Pasa la actividad de Diseño a UX Writing con <i>Enviar a Writing</i>; al terminar, usa <i>Enviar a Cliente</i> (DDF/OK Madrid) o <i>Devolver a Diseño</i> si hay que rehacer algo.</li>
+<li><b>Asignas a quien corresponda.</b> Al cambiar de estado, reasigna la actividad a la persona que tiene que actuar a continuación. Nunca debe quedar asignada a quien ya terminó su parte.</li>
+<li><b>Comentas con mención.</b> Toda comunicación va en la sección <b>Comentarios</b> de Jira con <code>@nombre</code>, no por Teams: la mención avisa y deja el histórico en la tarea.</li>
+<li><b>Actualizas el estatus en la descripción.</b> Mantén al principio un bloque «Última actualización» con fecha, estado, lo entregado (archivos adjuntos o enlaces), lo pendiente y el siguiente paso.</li>
+<li><b>Registras tus horas</b> en tu campo de horas de la actividad; los totales por perfil se calculan solos.</li>
+</ol>
+<div class="note info">Plantilla del bloque «Última actualización» y ejemplo de comentario en <a href="#equipos">Trabajo de los equipos</a>. Las etiquetas y otros acuerdos propios de este equipo se irán añadiendo aquí.</div>
+</section>
+
 <section id="pruebas">
 <h2>Pruebas</h2>
 <p class="intro">Se gestionan con Xray. Estos son todos los tipos que intervienen, para qué sirve cada uno y cómo se usa hoy. El subtipo de actividad correspondiente es <code>Pruebas</code> (también <code>Accesibilidad</code> y <code>Control Calidad Servicios Externos Integrados</code>).</p>
