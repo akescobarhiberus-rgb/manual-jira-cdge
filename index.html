@@ -599,7 +599,7 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <tr><td><b>Defect</b></td><td>Previsto para bugs encontrados en <b>PRO</b>, para distinguirlos de los Error de pruebas. Aún sin uso; el enlace «Defect: created by» lo conecta con el caso.</td><td class="num">0</td></tr>
 </tbody></table></div>
 <h3>Estados de un Test Case (resultado)</h3>
-<p><span class="st todo">NOT RUN</span> sin ejecutar · <span class="st prog">En curso</span> · <span class="st done">PASSED</span> · <span class="st fail">FAILED</span> · <span class="st wait">Blocked</span> · <span class="st todo">RETEST</span> tras corregir · <span class="st todo">Descartado</span> no aplica</p>
+<p><span class="st todo">NOT RUN</span> sin ejecutar · <span class="st prog">En curso</span> · <span class="st done">PASSED</span> · <span class="st fail">FAILED</span> · <span class="st wait">Blocked</span> · <span class="st todo">RETEST</span> tras corregir · <span class="st wait">Devuelto DEV</span> devuelto al equipo de desarrollo para que corrija · <span class="st todo">Descartado</span> no aplica</p>
 <p>Estado actual de los 483 casos: 388 NOT RUN, 36 Blocked, 32 FAILED, 21 PASSED, 4 En curso, 2 Descartado.</p>
 <h3>Estados de ejecución de un test (informe de entrega)</h3>
 <p>Resultado de cada test dentro de una Test Execution de Xray. Son los que cuenta el «estado global de ejecución» del informe de entrega:</p>
@@ -610,8 +610,10 @@ Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al client
 <li><b>Bloqueado</b>: no se puede probar por un impedimento.</li>
 <li><b>NoAplica</b>: no aplica en este paquete.</li>
 <li><b>Revisado con Defectos</b>: revisado y con defectos abiertos.</li>
+<li><b>Devuelto DEV</b>: devuelto al equipo de desarrollo para que corrija. Existe como estado del Test Case y como resultado de ejecución en Xray.</li>
 </ul>
 <p>No se usan <b>EXECUTING</b> ni <b>Parcial</b>, y por eso no salen en el informe.</p>
+<div class="note warn"><b>Pendiente en la plantilla.</b> «Devuelto DEV» es un estado nuevo y la plantilla del informe todavía cuenta solo seis estados, así que los tests en «Devuelto DEV» no aparecerían en el estado global. Hay que añadirlo a la plantilla.</div>
 <h3>Estados de Test Plan y Test Execution</h3>
 <p><span class="st todo">Backlog</span><span class="st todo">Tareas por hacer</span><span class="st todo">NOT RUN</span><span class="st prog">En curso</span><span class="st wait">Pending Validation</span><span class="st done">Finalizado</span><span class="st todo">Descartado</span>. Pending Validation indica que la ejecución terminó y espera revisión.</p>
 <h3>Flujo completo paso a paso</h3>
