@@ -255,17 +255,41 @@ nav.toc a{border:1px solid var(--line);border-radius:99px;padding:3px 10px;backg
 </ol>
 <div class="note info"><b>Ejemplo real:</b> AC_ENC046 Empleo, entrega 30-nov-2026, 39 h estimadas = 14 Consultor + 12 Consultor EB + 12 Jefe de proyecto + 1 Analista Programador.</div>
 <h3>Estados de la actividad</h3>
-<p>El flujo de Actividades tiene 16 estados. Léelos así (orden orientativo del ciclo; Jira no los impone en secuencia):</p>
+<p>El flujo de Actividades tiene 18 estados. Léelos así (orden orientativo del ciclo; Jira no los impone en secuencia):</p>
 <div class="tw"><table>
 <thead><tr><th>Fase</th><th>Estados</th><th>Cuándo</th></tr></thead>
 <tbody>
 <tr><td>Entrada</td><td><span class="st todo">Backlog</span><span class="st todo">Por hacer</span></td><td>Creada pero sin empezar.</td></tr>
-<tr><td>Definición</td><td><span class="st prog">Estrategia</span><span class="st prog">Investigación</span><span class="st prog">Diseño</span></td><td>Encuadre, research y diseño de la solución.</td></tr>
-<tr><td>Construcción</td><td><span class="st prog">Desarrollo NTT</span><span class="st prog">DDF y OK Madrid</span></td><td>Implementa el equipo externo; se cierra la documentación de diseño funcional y se obtiene el visto bueno de Madrid.</td></tr>
+<tr><td>Definición</td><td><span class="st prog">Estrategia</span><span class="st prog">Investigación</span><span class="st prog">Diseño</span><span class="st prog">UX Writing</span></td><td>Encuadre, research, diseño de la solución y revisión de sus textos (UX Writing).</td></tr>
+<tr><td>Construcción</td><td><span class="st prog">Desarrollo NTT</span><span class="st prog">DDF/OK Madrid</span></td><td>Implementa el equipo externo; se cierra la documentación de diseño funcional y se obtiene el visto bueno de Madrid.</td></tr>
 <tr><td>Calidad</td><td><span class="st prog">Ready for VAL</span><span class="st prog">Validación en VAL</span><span class="st prog">Revisión A11y</span><span class="st prog">En corrección</span><span class="st todo">RETEST</span></td><td>Pruebas en validación, accesibilidad y vuelta a corregir.</td></tr>
 <tr><td>Salida</td><td><span class="st prog">Smoke test PRO</span><span class="st prog">PRO</span><span class="st done">Cerrado</span></td><td>Humo en producción y cierre.</td></tr>
-<tr><td>Fuera de flujo</td><td><span class="st todo">Descartado</span></td><td>Se cancela.</td></tr>
+<tr><td>Fuera de flujo</td><td><span class="st fail">Bloqueado</span><span class="st todo">Descartado</span></td><td>Bloqueado: actividad detenida; se puede pasar desde cualquier estado. Descartado: se cancela.</td></tr>
 </tbody></table></div>
+<h3>Tablero del proyecto</h3>
+<p>El tablero agrupa los estados de las Actividades en 8 columnas. Una actividad solo se ve en el tablero si su estado está dentro de una columna.</p>
+<div class="tw"><table>
+<thead><tr><th>Columna</th><th>Estados</th></tr></thead>
+<tbody>
+<tr><td><b>Por hacer</b></td><td><span class="st todo">Backlog</span><span class="st todo">Por hacer</span></td></tr>
+<tr><td><b>En curso</b></td><td><span class="st prog">Estrategia</span><span class="st prog">Investigación</span><span class="st prog">Diseño</span><span class="st prog">UX Writing</span></td></tr>
+<tr><td><b>Desarrollo NTT</b></td><td><span class="st prog">Desarrollo NTT</span><span class="st prog">En corrección</span></td></tr>
+<tr><td><b>QA/A11y</b></td><td><span class="st prog">Ready for VAL</span><span class="st prog">Validación en VAL</span><span class="st prog">Revisión A11y</span><span class="st todo">RETEST</span></td></tr>
+<tr><td><b>Revisión MD</b></td><td><span class="st prog">DDF/OK Madrid</span></td></tr>
+<tr><td><b>Producción</b></td><td><span class="st prog">PRO</span><span class="st prog">Smoke test PRO</span></td></tr>
+<tr><td><b>Bloqueado</b></td><td><span class="st fail">Bloqueado</span></td></tr>
+<tr><td><b>Cerrado</b></td><td><span class="st done">Cerrado</span><span class="st todo">Descartado</span></td></tr>
+</tbody></table></div>
+<h4>Estado UX Writing</h4>
+<p>Paso del flujo para revisar los textos de un diseño. Se mueve con tres transiciones:</p>
+<ul>
+<li><b>Enviar a Writing:</b> de Diseño a UX Writing.</li>
+<li><b>Devolver a Diseño:</b> de UX Writing a Diseño, si hay que rehacer algo.</li>
+<li><b>Enviar a Cliente:</b> de UX Writing a DDF/OK Madrid.</li>
+</ul>
+<p>UX Writing se gestiona como <b>parte del equipo de Diseño</b> (grupo CDGE-Diseno); no hay un grupo aparte. Las personas que hacen writing y diseño usan el mismo flujo.</p>
+<h4>Estado Bloqueado</h4>
+<p>Cualquier actividad se puede pasar a <span class="st fail">Bloqueado</span> desde cualquier estado. Explica el motivo en un comentario con mención. Para desbloquearla hay seis transiciones, según adónde vuelva: Por hacer, Estrategia, Diseño, Desarrollo NTT, Validación en VAL o DDF/OK Madrid.</p>
 <div class="note warn"><b>Pendiente de confirmar:</b> qué estados pertenecen a cada camino (End-to-end o Equipo externo). La configuración visible no lo detalla; consúltalo en Configuración del proyecto → Flujos de trabajo.</div>
 <h3>Campo «Devuelto por NTT»</h3>
 <p>Cuando el equipo externo (NTT) devuelve una actividad porque no cumple lo esperado o necesita cambios, se marca en este campo. Así queda registrado en la propia actividad quién lo indicó y cuándo, y se pueden localizar todas las actividades devueltas.</p>
@@ -291,19 +315,19 @@ nav.toc a{border:1px solid var(--line);border-radius:99px;padding:3px 10px;backg
 <tr><td>Devueltas y aún sin cerrar</td><td><div class="pat"><code>project = CDGE AND issuetype = Actividades AND "Devuelto por NTT" = SI AND statusCategory != Done</code><button class="cp" data-t='project = CDGE AND issuetype = Actividades AND "Devuelto por NTT" = SI AND statusCategory != Done'>Copiar</button></div></td></tr>
 </tbody></table></div>
 <div class="note ok"><b>Flujo probado.</b> El flujo «Actividad devuelta por NTT: comentario automático» está activo y funciona correctamente con actividades reales.</div>
-<h3>Aviso automático al pasar a «DDF y OK Madrid»</h3>
-<p>Cuando una actividad llega al estado <span class="st prog">DDF y OK Madrid</span>, Jira avisa a quien debe enviarla al cliente. El aviso no se escribe en la actividad, sino en la <b>épica</b> a la que pertenece.</p>
+<h3>Aviso automático al pasar a «DDF/OK Madrid»</h3>
+<p>Cuando una actividad llega al estado <span class="st prog">DDF/OK Madrid</span>, Jira avisa a quien debe enviarla al cliente. El aviso no se escribe en la actividad, sino en la <b>épica</b> a la que pertenece.</p>
 <h4>Qué ocurre</h4>
 <ol class="steps">
-<li>Pasa la actividad a <span class="st prog">DDF y OK Madrid</span>.</li>
+<li>Pasa la actividad a <span class="st prog">DDF/OK Madrid</span>.</li>
 <li>Jira añade un comentario en la <b>épica padre</b> con la clave y el resumen de la actividad.</li>
 <li>El comentario menciona a la <b>persona asignada a la épica en ese momento</b>, sea quien sea. Si cambias el responsable de la épica, el aviso siguiente irá a la nueva persona.</li>
 <li>Esa persona envía la actividad al cliente.</li>
 </ol>
-<div class="note info"><b>Ejemplo.</b> Si CDGE-926 pasa a «DDF y OK Madrid», en su épica CDGE-925 aparece: «@persona asignada La actividad CDGE-926 - [resumen de la actividad] ha cambiado al estado “DDF/OK Madrid”, por favor proceda a enviarla al cliente.»</div>
+<div class="note info"><b>Ejemplo.</b> Si CDGE-926 pasa a «DDF/OK Madrid», en su épica CDGE-925 aparece: «@persona asignada La actividad CDGE-926 - [resumen de la actividad] ha cambiado al estado “DDF/OK Madrid”, por favor proceda a enviarla al cliente.»</div>
 <ul class="plain">
 <li><b>Mantén asignada la épica.</b> Si no tiene persona asignada, no hay a quién mencionar.</li>
-<li>El texto del comentario dice «DDF/OK Madrid»; el estado en Jira se llama «DDF y OK Madrid».</li>
+
 <li>No se escribe nada en la actividad. Busca el aviso en los comentarios de la épica.</li>
 </ul>
 <div class="note ok"><b>Flujo probado.</b> El aviso en la épica está activo y funciona correctamente con actividades reales.</div>
@@ -394,13 +418,13 @@ Siguiente paso: &lt;qué hará y quién&gt;</div>
 
 <h3>4. Ejemplo de comentario</h3>
 <div class="note info" style="white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace;font-size:13px">@persona asignada de Gestión: los diseños de AC_ENC046 están listos en Figma (enlace en la descripción).
-Paso la actividad a DDF y OK Madrid y te la reasigno para que la envíes al cliente.</div>
+Paso la actividad a DDF/OK Madrid y te la reasigno para que la envíes al cliente.</div>
 
 <h3>5. Responsabilidades por equipo</h3>
 <div class="tw"><table>
 <thead><tr><th>Equipo</th><th>Recibe</th><th>Mueve y entrega</th></tr></thead>
 <tbody>
-<tr><td><b>Diseño</b></td><td>Actividad de diseño con entregable y fechas.</td><td>Pasa por Diseño hasta DDF y OK Madrid; adjunta o enlaza los diseños y reasigna al responsable de enviarlos.</td></tr>
+<tr><td><b>Diseño</b></td><td>Actividad de diseño con entregable y fechas.</td><td>Pasa por Diseño, UX Writing (textos) y DDF/OK Madrid; adjunta o enlaza los diseños y reasigna al responsable de enviarlos.</td></tr>
 <tr><td><b>QA</b></td><td>Actividad de pruebas o evolutivo a validar.</td><td>Pasa por Ready for VAL, Validación en VAL, Revisión A11y, En corrección y RETEST; enlaza Test Plan, ejecuciones y errores; reasigna a quien deba corregir.</td></tr>
 <tr><td><b>Research y Analítica</b></td><td>Actividad con sus subtareas <code>RS_</code> / <code>AN_</code>.</td><td>Mueve cada subtarea; al terminarlas todas, pasa la actividad al estado siguiente y adjunta el informe.</td></tr>
 <tr><td><b>Otros equipos</b></td><td>Actividad completa.</td><td>Mismas reglas: estado, asignación, comentarios con mención y descripción al día.</td></tr>
@@ -419,7 +443,7 @@ Paso la actividad a DDF y OK Madrid y te la reasigno para que la envíes al clie
 <tr><td><b>Aviso: actividad creada sin épica asociada</b></td><td>Al crear una incidencia</td><td>Si no tiene épica en <b>Principal</b>, comenta mencionando a quien la creó.</td><td><span class="st done">Activo</span></td></tr>
 <tr><td><b>Aviso: actividad creada sin Estimación original</b></td><td>Al crear una Actividad</td><td>Si la Estimación original está vacía, comenta mencionando a quien la creó.</td><td><span class="st done">Activo</span></td></tr>
 <tr><td><b>Actividad devuelta por NTT: comentario automático</b></td><td>Al poner «Devuelto por NTT» en SI</td><td>Comenta en la actividad quién lo indicó y la fecha.</td><td><span class="st done">Activo</span></td></tr>
-<tr><td><b>Actividad en DDF/OK Madrid: avisar al Owner de la épica</b></td><td>Al pasar a «DDF y OK Madrid»</td><td>Comenta en la épica mencionando a su persona asignada.</td><td><span class="st done">Activo</span></td></tr>
+<tr><td><b>Actividad en DDF/OK Madrid: avisar al Owner de la épica</b></td><td>Al pasar a «DDF/OK Madrid»</td><td>Comenta en la épica mencionando a su persona asignada.</td><td><span class="st done">Activo</span></td></tr>
 <tr><td><b>Horas por persona: sumar en Horas Jefe de proyecto / Consultor / Consultor EB / Analista Programador</b></td><td>Al actualizar una Actividad</td><td>Suma las horas de cada persona en el total de su perfil.</td><td><span class="st done">Activo</span></td></tr>
 <tr><td><b>Epic: sumar horas estimadas de sus actividades</b></td><td>Al cambiar las horas por perfil de una actividad</td><td>Recalcula en la épica los totales de horas a partir de todas sus actividades.</td><td><span class="st done">Activo</span></td></tr>
 <tr><td><b>Actividad: sumar horas por rol en Horas estimadas</b></td><td>Al cambiar las horas por perfil</td><td>Escribía el total en el campo «Horas estimadas», que ya no existe.</td><td><span class="st todo">Desactivado</span></td></tr>
@@ -477,7 +501,7 @@ Paso la actividad a DDF y OK Madrid y te la reasigno para que la envíes al clie
 <li><b>Entregas la actividad completa.</b> Antes de asignarla rellena título <code>AC_ENC&lt;nº&gt; - Descripción</code>, épica, SUBTIPO, ENTREGABLE, Responsable Madrid, Fecha de entrega, Fecha de vencimiento, Estimación original, horas planificadas, persona asignada y descripción con el alcance.</li>
 <li><b>Avisas con mención.</b> Al asignar, comenta con <code>@persona</code> qué se espera y para cuándo. No uses Teams para esto.</li>
 <li><b>Atiendes los avisos.</b> Si un equipo comenta que falta un campo o devuelve la actividad, corrige y responde en la propia actividad.</li>
-<li><b>Mantienes la épica asignada</b> para que lleguen los avisos automáticos (por ejemplo, al pasar una actividad a DDF y OK Madrid).</li>
+<li><b>Mantienes la épica asignada</b> para que lleguen los avisos automáticos (por ejemplo, al pasar una actividad a DDF/OK Madrid).</li>
 </ol>
 <div class="note info">Qué hace cada equipo con la actividad que recibe: <a href="#equipos">Trabajo de los equipos</a>.</div>
 </section>
@@ -541,7 +565,7 @@ Paso la actividad a DDF y OK Madrid y te la reasigno para que la envíes al clie
 </div>
 <ol class="steps">
 <li>Crea la <b>Actividad</b> con el subtipo y descríbela en el título: sesiones, diseño final, especificaciones, acompañamiento.</li>
-<li>Avanza por <span class="st prog">Diseño</span> y, al entregar especificaciones, por <span class="st prog">DDF y OK Madrid</span> hasta tener el visto bueno.</li>
+<li>Avanza por <span class="st prog">Diseño</span>, pasa por <span class="st prog">UX Writing</span> para revisar los textos (<i>Enviar a Writing</i>) y, al entregar especificaciones, por <span class="st prog">DDF/OK Madrid</span> hasta tener el visto bueno.</li>
 <li>Con el equipo externo desarrollando: <span class="st prog">Desarrollo NTT</span>. Resuelve dudas en la propia actividad.</li>
 <li>Cuando el diseño esté implementado, crea la <b>Test Execution</b> de diseño: <code>TE_&lt;épica&gt; - DESK - DIS - …</code> (y variantes IOS/Android APP).</li>
 <li>Los defectos de diseño se registran como <b>Error</b> enlazado al caso (etiquetas <code>UI_UX</code>, <code>UX</code>).</li>
@@ -551,7 +575,7 @@ Paso la actividad a DDF y OK Madrid y te la reasigno para que la envíes al clie
 <div class="note ok"><b>Regla de oro.</b> Jira es el único sitio donde queda constancia del trabajo: lo que se decide o se entrega por Teams, correo o de palabra no existe hasta que se escribe en la actividad.</div>
 <ol>
 <li><b>Recibes la actividad completa.</b> Gestión la entrega con título <code>AC_ENC&lt;nº&gt; - Descripción</code>, épica, SUBTIPO, ENTREGABLE, Responsable Madrid, fechas, estimación, persona asignada y descripción con el alcance. Si falta algo, no empieces: comenta mencionando (<code>@persona</code>) a quien la creó e indica qué campo falta.</li>
-<li><b>Transicionas el estado.</b> Quien trabaja la actividad es quien la mueve por su flujo, sin esperar a Gestión, y lo hace cuando el trabajo cambia de fase. Avanza por Diseño hasta DDF y OK Madrid; adjunta o enlaza los diseños (Figma, SharePoint…) y reasigna al responsable de enviarlos al cliente.</li>
+<li><b>Transicionas el estado.</b> Quien trabaja la actividad es quien la mueve por su flujo, sin esperar a Gestión, y lo hace cuando el trabajo cambia de fase. Avanza por Diseño, UX Writing (textos) y DDF/OK Madrid; adjunta o enlaza los diseños (Figma, SharePoint…) y reasigna al responsable de enviarlos al cliente.</li>
 <li><b>Asignas a quien corresponda.</b> Al cambiar de estado, reasigna la actividad a la persona que tiene que actuar a continuación. Nunca debe quedar asignada a quien ya terminó su parte.</li>
 <li><b>Comentas con mención.</b> Toda comunicación va en la sección <b>Comentarios</b> de Jira con <code>@nombre</code>, no por Teams: la mención avisa y deja el histórico en la tarea.</li>
 <li><b>Actualizas el estatus en la descripción.</b> Mantén al principio un bloque «Última actualización» con fecha, estado, lo entregado (archivos adjuntos o enlaces), lo pendiente y el siguiente paso.</li>
@@ -577,6 +601,17 @@ Paso la actividad a DDF y OK Madrid y te la reasigno para que la envíes al clie
 <h3>Estados de un Test Case (resultado)</h3>
 <p><span class="st todo">NOT RUN</span> sin ejecutar · <span class="st prog">En curso</span> · <span class="st done">PASSED</span> · <span class="st fail">FAILED</span> · <span class="st wait">Blocked</span> · <span class="st todo">RETEST</span> tras corregir · <span class="st todo">Descartado</span> no aplica</p>
 <p>Estado actual de los 483 casos: 388 NOT RUN, 36 Blocked, 32 FAILED, 21 PASSED, 4 En curso, 2 Descartado.</p>
+<h3>Estados de ejecución de un test (informe de entrega)</h3>
+<p>Resultado de cada test dentro de una Test Execution de Xray. Son los que cuenta el «estado global de ejecución» del informe de entrega:</p>
+<ul>
+<li><b>TO DO</b>: aún sin ejecutar.</li>
+<li><b>PASSED</b>: correcto.</li>
+<li><b>FAILED</b>: falla.</li>
+<li><b>Bloqueado</b>: no se puede probar por un impedimento.</li>
+<li><b>NoAplica</b>: no aplica en este paquete.</li>
+<li><b>Revisado con Defectos</b>: revisado y con defectos abiertos.</li>
+</ul>
+<p>No se usan <b>EXECUTING</b> ni <b>Parcial</b>, y por eso no salen en el informe.</p>
 <h3>Estados de Test Plan y Test Execution</h3>
 <p><span class="st todo">Backlog</span><span class="st todo">Tareas por hacer</span><span class="st todo">NOT RUN</span><span class="st prog">En curso</span><span class="st wait">Pending Validation</span><span class="st done">Finalizado</span><span class="st todo">Descartado</span>. Pending Validation indica que la ejecución terminó y espera revisión.</p>
 <h3>Flujo completo paso a paso</h3>
@@ -600,12 +635,12 @@ Paso la actividad a DDF y OK Madrid y te la reasigno para que la envíes al clie
 </div>
 <div class="note info"><b>Etiquetas útiles ya en uso:</b> <code>VAL</code>, <code>PRO</code>, <code>Accesibilidad</code>, <code>Funcional</code>, <code>bloqueo</code>, <code>urgente</code>, <code>reutilizar</code>, <code>refactorizar</code>, <code>Regresivas_sol</code>, <code>Desktop</code>, <code>Mobile</code>, <code>Fallo_VAL</code>, <code>bugs_viejos</code>.</div>
 <h3>Informe de pruebas y paquetes de Jira de NTT (equipo QA)</h3>
-<p>El informe de pruebas de los paquetes de Jira que reporta NTT se genera desde el <b>Test Plan</b> con la plantilla <b>«Informe de paquetes NTT»</b>.</p>
+<p>El informe de pruebas de los paquetes de Jira que reporta NTT se genera desde el <b>Test Plan</b> con la plantilla <b>«Informe de PaP revisión paquetes de NTT»</b>.</p>
 <ol>
 <li>Debe existir un <b>Test Plan</b> (<code>TP_…</code>) con <b>todas las Test Execution adjuntas</b> dentro.</li>
 <li>Ejecuta completamente los tests. Cuando esté todo ejecutado, abre el Test Plan.</li>
 <li>Pulsa los <b>tres puntos (···)</b> y elige <b>Xray - Generador de documentos</b>.</li>
-<li>Selecciona la plantilla <b>«Informe de paquetes NTT»</b> y genera el documento.</li>
+<li>Selecciona la plantilla <b>«Informe de PaP revisión paquetes de NTT»</b> y genera el documento.</li>
 <li>Descárgalo, revísalo contra Jira y envíalo. Pasos completos y qué hacer si falta una ejecución: <a href="#informes">Informes</a>.</li>
 </ol>
 <h3>Cómo trabaja el equipo de QA en Jira</h3>
@@ -689,19 +724,26 @@ Paso la actividad a DDF y OK Madrid y te la reasigno para que la envíes al clie
 <p>Cambia <code>CDGE-379</code> o <code>CDGE-664</code> por la épica que quieras informar.</p>
 <h3>4. Exportar documentos e informe a cliente (Xray Document Generator) · equipo QA</h3>
 <p>Los documentos de pruebas (informe de un Test Plan, de una ejecución…) se exportan con el <b>Document Generator de Xray</b>: toma una plantilla Word y la rellena con los datos reales del plan en Jira. El informe que se entrega al cliente sale siempre de aquí.</p>
-<div class="note ok"><b>Cómo se hace.</b> Se genera desde el propio Test Plan: menú de los <b>tres puntos (···)</b> → <b>Xray - Generador de documentos</b>, eligiendo la plantilla que corresponda. Para los paquetes de Jira de NTT la plantilla es <b>«Informe de paquetes NTT»</b>.</div>
+<div class="note ok"><b>Cómo se hace.</b> Se genera desde el propio Test Plan: menú de los <b>tres puntos (···)</b> → <b>Xray - Generador de documentos</b>, eligiendo la plantilla que corresponda. Para los paquetes de Jira de NTT la plantilla es <b>«Informe de PaP revisión paquetes de NTT»</b>.</div>
+<h4>Qué lleva el informe</h4>
+<ul>
+<li><b>Estado global de ejecución:</b> contador y porcentaje de TO DO, PASSED, FAILED, Bloqueado, NoAplica y Revisado con Defectos.</li>
+<li><b>Resumen por ejecución:</b> una tabla por Test Execution con Clave, Test, Descripción, Estado, Comentario y Trazabilidad (las etiquetas <code>NTT_Mes_AA</code> del test, para ver en qué meses estuvo pendiente de probar).</li>
+<li>Portada, encabezado y pie con el nombre del Test Plan.</li>
+</ul>
+<div class="note warn"><b>Plantilla pendiente de probar.</b> Si al generar con datos reales alguna columna sale vacía (por ejemplo Descripción o Trazabilidad) o el nombre del plan aparece como variable sin sustituir, avisa para ajustar la plantilla.</div>
 <h4>Antes de exportar</h4>
 <ol>
 <li>Debe existir un <b>Test Plan</b> y tener <b>adjuntas dentro todas las Test Execution</b> (el informe del plan solo recoge las que contiene).</li>
 <li>Los tests deben estar <b>completamente ejecutados</b>. Genera el informe solo cuando todo esté ejecutado.</li>
 <li>Revisa que los casos tienen resultado (PASSED, FAILED, Blocked…) y que los errores están enlazados a sus casos.</li>
-<li>Ten a mano la plantilla: <b>«Informe de paquetes NTT»</b> para los paquetes de Jira de NTT. Para otros informes a cliente: «Informe Test Plan - entrega clientes v6 (sin pasos)» (casos, estado actual y errores) o la v5 (con Bugs) si se pide el detalle de los pasos.</li>
+<li>Ten a mano la plantilla: <b>«Informe de PaP revisión paquetes de NTT»</b> para los paquetes de Jira de NTT. Para otros informes a cliente: «Informe Test Plan - entrega clientes v6 (sin pasos)» (casos, estado actual y errores) o la v5 (con Bugs) si se pide el detalle de los pasos.</li>
 </ol>
 <h4>Pasos</h4>
 <ol>
 <li>Abre el <b>Test Plan</b> y pulsa los <b>tres puntos (···)</b> de la incidencia.</li>
 <li>Elige <b>Xray - Generador de documentos</b>.</li>
-<li>Selecciona la <b>plantilla</b>: <b>«Informe de paquetes NTT»</b> para los paquetes de NTT. Si es la primera vez y no aparece, súbela desde su archivo <code>.docx</code>.</li>
+<li>Selecciona la <b>plantilla</b>: <b>«Informe de PaP revisión paquetes de NTT»</b> para los paquetes de NTT. Si es la primera vez y no aparece, súbela desde su archivo <code>.docx</code>.</li>
 <li>Comprueba que el documento se va a generar para ese Test Plan (por ejemplo <code>TP_CDGE-874 - …</code>).</li>
 <li>Pulsa <b>Generar</b> y espera a que termine.</li>
 <li><b>Descarga</b> el documento <code>.docx</code>.</li>
